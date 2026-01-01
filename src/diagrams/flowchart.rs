@@ -27,9 +27,12 @@ use crate::{
 /// ```
 /// use mermaid_builder::prelude::*;
 ///
-/// let mut builder = FlowchartBuilder::default();
-/// let node = builder.node(FlowchartNodeBuilder::default().label("Node").unwrap()).unwrap();
-/// let flowchart = Flowchart::from(builder);
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let mut builder = FlowchartBuilder::default();
+///     let node = builder.node(FlowchartNodeBuilder::default().label("Node")?)?;
+///     let flowchart = Flowchart::from(builder);
+///     Ok(())
+/// }
 /// ```
 pub struct Flowchart {
     generic: GenericDiagram<FlowchartNode, FlowchartEdge, FlowchartConfiguration>,

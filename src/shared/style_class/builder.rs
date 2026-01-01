@@ -14,13 +14,13 @@ use crate::shared::{
 /// ```
 /// use mermaid_builder::prelude::*;
 ///
-/// let style_class = StyleClassBuilder::default()
-///     .name("myClass")
-///     .unwrap()
-///     .property(StyleProperty::Fill(Color::from((255, 0, 0))))
-///     .unwrap()
-///     .build()
-///     .unwrap();
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let style_class = StyleClassBuilder::default()
+///         .name("myClass")?
+///         .property(StyleProperty::Fill(Color::from((255, 0, 0))))?
+///         .build()?;
+///     Ok(())
+/// }
 /// ```
 pub struct StyleClassBuilder {
     /// The name of the style class.
@@ -116,21 +116,20 @@ mod tests {
     }
 
     #[test]
-    fn test_style_class_builder_errors() {
+    fn test_style_class_builder_errors() -> Result<(), Box<dyn std::error::Error>> {
         let builder = StyleClassBuilder::default();
         assert!(matches!(builder.name(""), Err(StyleClassError::EmptyName)));
 
-        let builder = StyleClassBuilder::default().name("myClass").unwrap();
+        let builder = StyleClassBuilder::default().name("myClass")?;
         assert!(matches!(builder.build(), Err(StyleClassError::MissingProperties)));
 
         let builder = StyleClassBuilder::default()
-            .name("myClass")
-            .unwrap()
-            .property(StyleProperty::Fill(Color::from((255, 0, 0))))
-            .unwrap();
+            .name("myClass")?
+            .property(StyleProperty::Fill(Color::from((255, 0, 0))))?;
         assert!(matches!(
             builder.property(StyleProperty::Fill(Color::from((255, 0, 0)))),
             Err(StyleClassError::DuplicateProperty(_))
         ));
+        Ok(())
     }
 }

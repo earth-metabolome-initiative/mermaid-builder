@@ -22,18 +22,17 @@ use crate::{
 ///
 /// use mermaid_builder::prelude::*;
 ///
-/// let node1 = Rc::new(ClassNodeBuilder::default().label("A").unwrap().id(0).build().unwrap());
-/// let node2 = Rc::new(ClassNodeBuilder::default().label("B").unwrap().id(1).build().unwrap());
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let node1 = Rc::new(ClassNodeBuilder::default().label("A")?.id(0).build()?);
+///     let node2 = Rc::new(ClassNodeBuilder::default().label("B")?.id(1).build()?);
 ///
-/// let edge = ClassEdgeBuilder::default()
-///     .source(node1)
-///     .unwrap()
-///     .destination(node2)
-///     .unwrap()
-///     .right_arrow_shape(ArrowShape::Triangle)
-///     .unwrap()
-///     .build()
-///     .unwrap();
+///     let edge = ClassEdgeBuilder::default()
+///         .source(node1)?
+///         .destination(node2)?
+///         .right_arrow_shape(ArrowShape::Triangle)?
+///         .build()?;
+///     Ok(())
+/// }
 /// ```
 pub struct ClassEdgeBuilder {
     /// Underlying generic edge builder.

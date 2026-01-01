@@ -16,13 +16,11 @@ use crate::{
 /// ```
 /// use mermaid_builder::prelude::*;
 ///
-/// let node = ClassNodeBuilder::default()
-///     .label("MyClass")
-///     .unwrap()
-///     .annotation("interface")
-///     .id(0)
-///     .build()
-///     .unwrap();
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let node =
+///         ClassNodeBuilder::default().label("MyClass")?.annotation("interface").id(0).build()?;
+///     Ok(())
+/// }
 /// ```
 #[derive(Default, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

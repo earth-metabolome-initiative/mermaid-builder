@@ -206,7 +206,7 @@ mod tests {
             .build()?;
 
         assert_eq!(edge.classes().count(), 1);
-        assert_eq!(edge.classes().next().unwrap().name(), "myStyle");
+        assert_eq!(edge.classes().next().ok_or("No class found")?.name(), "myStyle");
         Ok(())
     }
 }

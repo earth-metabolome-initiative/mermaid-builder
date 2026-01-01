@@ -28,6 +28,8 @@ cargo add mermaid-builder
 
 ### Flowchart
 
+For more details, check the documentation for [`FlowchartBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartBuilder.html), [`FlowchartNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartNodeBuilder.html), [`FlowchartEdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartEdgeBuilder.html), and [`Flowchart`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.Flowchart.html).
+
 ```rust
 use mermaid_builder::prelude::*;
 
@@ -75,6 +77,8 @@ flowchart LR
 ```
 
 ### Class Diagram
+
+For more details, check the documentation for [`ClassDiagramBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/type.ClassDiagramBuilder.html), [`ClassNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/class_node/struct.ClassNodeBuilder.html), [`ClassEdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/class_edge/builder/struct.ClassEdgeBuilder.html), and [`ClassDiagram`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/type.ClassDiagram.html).
 
 ```rust
 use mermaid_builder::prelude::*;
@@ -136,6 +140,8 @@ classDiagram
 ```
 
 ### Entity Relationship Diagram
+
+For more details, check the documentation for [`ERDiagramBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/type.ERDiagramBuilder.html), [`ERNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/entity_relationship_node/struct.ERNodeBuilder.html), [`EREdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/entity_relationship_edge/type.EREdgeBuilder.html), and [`ERDiagram`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/type.ERDiagram.html).
 
 ```rust
 use mermaid_builder::prelude::*;

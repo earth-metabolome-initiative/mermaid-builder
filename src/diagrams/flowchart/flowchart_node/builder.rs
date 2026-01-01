@@ -22,13 +22,14 @@ use crate::{
 /// ```
 /// use mermaid_builder::prelude::*;
 ///
-/// let node = FlowchartNodeBuilder::default()
-///     .label("My Node")
-///     .unwrap()
-///     .shape(FlowchartNodeShape::Circle)
-///     .id(0)
-///     .build()
-///     .unwrap();
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let node = FlowchartNodeBuilder::default()
+///         .label("My Node")?
+///         .shape(FlowchartNodeShape::Circle)
+///         .id(0)
+///         .build()?;
+///     Ok(())
+/// }
 /// ```
 pub struct FlowchartNodeBuilder {
     /// Shared attributes builder for the node.

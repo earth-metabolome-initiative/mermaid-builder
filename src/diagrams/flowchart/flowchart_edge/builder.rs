@@ -22,18 +22,18 @@ use crate::{
 ///
 /// use mermaid_builder::prelude::*;
 ///
-/// let node1 = Rc::new(FlowchartNodeBuilder::default().label("A").unwrap().id(0).build().unwrap());
-/// let node2 = Rc::new(FlowchartNodeBuilder::default().label("B").unwrap().id(1).build().unwrap());
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let node1 = Rc::new(FlowchartNodeBuilder::default().label("A")?.id(0).build()?);
+///     let node2 = Rc::new(FlowchartNodeBuilder::default().label("B")?.id(1).build()?);
 ///
-/// let edge = FlowchartEdgeBuilder::default()
-///     .source(node1)
-///     .unwrap()
-///     .destination(node2)
-///     .unwrap()
-///     .length(2)
-///     .id(0)
-///     .build()
-///     .unwrap();
+///     let edge = FlowchartEdgeBuilder::default()
+///         .source(node1)?
+///         .destination(node2)?
+///         .length(2)
+///         .id(0)
+///         .build()?;
+///     Ok(())
+/// }
 /// ```
 pub struct FlowchartEdgeBuilder {
     /// Unique identifier for the edge.
