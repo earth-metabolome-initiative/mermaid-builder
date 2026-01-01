@@ -9,16 +9,6 @@
 
 **Mermaid Builder** is a Rust crate that provides a type-safe, builder-pattern-based API for generating [Mermaid](https://mermaid.js.org/) diagram syntax. It allows you to define diagrams programmatically in Rust and export them as strings that can be rendered by Mermaid tools.
 
-## Features
-
--   **Type-Safe Builders**: Construct diagrams using Rust structs and builders, ensuring validity at compile time where possible.
--   **Multiple Diagram Types**: Supports:
-    -   [Flowcharts](https://mermaid.js.org/syntax/flowchart.html)
-    -   [Class Diagrams](https://mermaid.js.org/syntax/classDiagram.html)
-    -   [Entity Relationship Diagrams](https://mermaid.js.org/syntax/entityRelationshipDiagram.html)
--   **Customization**: Extensive support for styling, directions, themes, and configurations.
--   **Serde Support**: Optional `serde` feature for serializing/deserializing diagram structures.
-
 ## Installation
 
 Add this to your `Cargo.toml`:

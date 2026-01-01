@@ -21,3 +21,4 @@ target
 #.idea/
 coverage
 cobertura.xml
+*.profraw
