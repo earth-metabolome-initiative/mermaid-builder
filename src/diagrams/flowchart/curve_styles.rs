@@ -50,3 +50,24 @@ impl std::fmt::Display for CurveStyle {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_curve_style_display() {
+        assert_eq!(CurveStyle::Basis.to_string(), "basis");
+        assert_eq!(CurveStyle::BumpX.to_string(), "bumpX");
+        assert_eq!(CurveStyle::BumpY.to_string(), "bumpY");
+        assert_eq!(CurveStyle::Cardinal.to_string(), "cardinal");
+        assert_eq!(CurveStyle::CatmullRom.to_string(), "catmullRom");
+        assert_eq!(CurveStyle::Linear.to_string(), "linear");
+        assert_eq!(CurveStyle::MonotoneX.to_string(), "monotoneX");
+        assert_eq!(CurveStyle::MonotoneY.to_string(), "monotoneY");
+        assert_eq!(CurveStyle::Natural.to_string(), "natural");
+        assert_eq!(CurveStyle::Step.to_string(), "step");
+        assert_eq!(CurveStyle::StepAfter.to_string(), "stepAfter");
+        assert_eq!(CurveStyle::StepBefore.to_string(), "stepBefore");
+    }
+}

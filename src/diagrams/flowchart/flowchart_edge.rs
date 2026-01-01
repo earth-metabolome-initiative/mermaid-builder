@@ -18,6 +18,26 @@ pub use builder::FlowchartEdgeBuilder;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Represents an edge in a flowchart diagram, connecting two nodes with various
 /// properties such as styles, classes, and curve styles.
+///
+/// # Examples
+///
+/// ```
+/// use std::rc::Rc;
+///
+/// use mermaid_builder::{
+///     diagrams::flowchart::{FlowchartEdgeBuilder, FlowchartNodeBuilder},
+///     traits::{EdgeBuilder, NodeBuilder},
+/// };
+///
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let node1 = Rc::new(FlowchartNodeBuilder::default().label("A")?.id(1).build()?);
+///     let node2 = Rc::new(FlowchartNodeBuilder::default().label("B")?.id(2).build()?);
+///
+///     let edge =
+///         FlowchartEdgeBuilder::default().source(node1)?.destination(node2)?.id(1).build()?;
+///     Ok(())
+/// }
+/// ```
 pub struct FlowchartEdge {
     /// Unique identifier for the edge.
     id: usize,
@@ -68,6 +88,14 @@ impl Edge for FlowchartEdge {
 
 impl Display for FlowchartEdge {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        use crate::traits::TabbedDisplay;
+        self.fmt_tabbed(f, 0)
+    }
+}
+
+impl crate::traits::TabbedDisplay for FlowchartEdge {
+    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+        let indent = " ".repeat(tab_count * 2);
         let segment = match self.line_style() {
             LineStyle::Solid => "-".repeat(2 + self.length as usize),
             LineStyle::Thick => "=".repeat(2 + self.length as usize),
@@ -85,7 +113,7 @@ impl Display for FlowchartEdge {
 
         writeln!(
             f,
-            "{NODE_LETTER}{} {edge_prefix}{left_arrow}{segment}{right_arrow}{} {NODE_LETTER}{}",
+            "{indent}{NODE_LETTER}{} {edge_prefix}{left_arrow}{segment}{right_arrow}{} {NODE_LETTER}{}",
             self.source().id(),
             self.label().map_or_else(String::new, |label| format!("|\"`{label}`\"|")),
             self.destination().id(),
@@ -95,15 +123,15 @@ impl Display for FlowchartEdge {
         )?;
 
         if self.curve_style != CurveStyle::default() {
-            writeln!(f, "{EDGE_LETTER}{}@{{curve: {}}}", self.id, self.curve_style)?;
+            writeln!(f, "{indent}{EDGE_LETTER}{}@{{curve: {}}}", self.id, self.curve_style)?;
         }
 
         for class in &self.style_classes {
-            writeln!(f, "class {EDGE_LETTER}{} {}", self.id, class.name())?;
+            writeln!(f, "{indent}class {EDGE_LETTER}{} {}", self.id, class.name())?;
         }
 
         if !self.style_properties.is_empty() {
-            write!(f, "linkStyle {EDGE_LETTER}{} ", self.id)?;
+            write!(f, "{indent}linkStyle {EDGE_LETTER}{} ", self.id)?;
             for (style_number, style) in self.style_properties.iter().enumerate() {
                 if style_number > 0 {
                     write!(f, ", ")?;

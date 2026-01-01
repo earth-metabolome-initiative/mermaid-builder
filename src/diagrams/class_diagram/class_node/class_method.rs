@@ -38,7 +38,7 @@ pub struct ClassMethod {
 
 impl Display for ClassMethod {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} ", self.visibility)?;
+        write!(f, "{}", self.visibility)?;
         write!(f, "{}", self.name)?;
 
         if self.arguments.is_empty() {
@@ -61,5 +61,38 @@ impl Display for ClassMethod {
         }
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_argument_display() {
+        let arg = Argument { name: "arg1".to_string(), arg_type: "int".to_string() };
+        assert_eq!(arg.to_string(), "arg1: int");
+    }
+
+    #[test]
+    fn test_class_method_display() {
+        let method = ClassMethod {
+            name: "method1".to_string(),
+            arguments: vec![
+                Argument { name: "arg1".to_string(), arg_type: "int".to_string() },
+                Argument { name: "arg2".to_string(), arg_type: "String".to_string() },
+            ],
+            return_type: Some("bool".to_string()),
+            visibility: Visibility::Public,
+        };
+        assert_eq!(method.to_string(), "+method1(arg1: int, arg2: String): bool");
+
+        let method_void = ClassMethod {
+            name: "method2".to_string(),
+            arguments: vec![],
+            return_type: None,
+            visibility: Visibility::Private,
+        };
+        assert_eq!(method_void.to_string(), "-method2(): void");
     }
 }

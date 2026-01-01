@@ -14,6 +14,27 @@ use crate::{
 #[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Builder for creating a `FlowchartEdge`.
+///
+/// # Example
+///
+/// ```
+/// use std::rc::Rc;
+///
+/// use mermaid_builder::prelude::*;
+///
+/// let node1 = Rc::new(FlowchartNodeBuilder::default().label("A").unwrap().id(0).build().unwrap());
+/// let node2 = Rc::new(FlowchartNodeBuilder::default().label("B").unwrap().id(1).build().unwrap());
+///
+/// let edge = FlowchartEdgeBuilder::default()
+///     .source(node1)
+///     .unwrap()
+///     .destination(node2)
+///     .unwrap()
+///     .length(2)
+///     .id(0)
+///     .build()
+///     .unwrap();
+/// ```
 pub struct FlowchartEdgeBuilder {
     /// Unique identifier for the edge.
     id: Option<usize>,

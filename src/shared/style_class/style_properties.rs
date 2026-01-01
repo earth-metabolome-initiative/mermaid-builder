@@ -78,3 +78,39 @@ impl Display for StyleProperty {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_style_property_display() {
+        let color = Color::from((255, 0, 0));
+        assert_eq!(format!("{}", StyleProperty::Fill(color)), "fill: #ff0000");
+        assert_eq!(format!("{}", StyleProperty::Stroke(color)), "stroke: #ff0000");
+        assert_eq!(format!("{}", StyleProperty::Color(color)), "color: #ff0000");
+        assert_eq!(format!("{}", StyleProperty::StrokeWidth(Unit::Pixel(2))), "stroke-width: 2px");
+        assert_eq!(format!("{}", StyleProperty::FontSize(Unit::Point(12))), "font-size: 12pt");
+        assert_eq!(format!("{}", StyleProperty::FontWeight(FontWeight::Bold)), "font-weight: bold");
+        assert_eq!(
+            format!("{}", StyleProperty::FontStyle(FontStyle::Italic)),
+            "font-style: italic"
+        );
+        assert_eq!(format!("{}", StyleProperty::StrokeDasharray(5, 2)), "stroke-dasharray: 5, 2");
+        assert_eq!(format!("{}", StyleProperty::StrokeDashoffset(4)), "stroke-dashoffset: 4");
+        assert_eq!(format!("{}", StyleProperty::Opacity(50)), "opacity: 0.50");
+        assert_eq!(format!("{}", StyleProperty::BorderRadius(Unit::Pixel(5))), "rx: 5px, ry: 5px");
+    }
+
+    #[test]
+    fn test_style_property_is_same_type() {
+        assert!(
+            StyleProperty::Fill(Color::from((255, 0, 0)))
+                .is_same_type(StyleProperty::Fill(Color::from((0, 0, 255))))
+        );
+        assert!(
+            !StyleProperty::Fill(Color::from((255, 0, 0)))
+                .is_same_type(StyleProperty::Stroke(Color::from((255, 0, 0))))
+        );
+    }
+}

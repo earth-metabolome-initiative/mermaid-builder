@@ -47,3 +47,19 @@ impl Display for Multiplicity {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_multiplicity_display() {
+        assert_eq!(Multiplicity::One.to_string(), "1");
+        assert_eq!(Multiplicity::ZeroOrOne.to_string(), "0..1");
+        assert_eq!(Multiplicity::OneOrMore.to_string(), "1..*");
+        assert_eq!(Multiplicity::Many.to_string(), "*");
+        assert_eq!(Multiplicity::N.to_string(), "n");
+        assert_eq!(Multiplicity::ZeroToN.to_string(), "0..n");
+        assert_eq!(Multiplicity::OneToN.to_string(), "1..n");
+    }
+}

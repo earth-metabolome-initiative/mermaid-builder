@@ -49,3 +49,22 @@ impl Display for Theme {
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_theme_display() {
+        assert_eq!(format!("{}", Theme::MermaidChart), "mc");
+        assert_eq!(format!("{}", Theme::Neo), "neo");
+        assert_eq!(format!("{}", Theme::NeoDark), "neo-dark");
+        assert_eq!(format!("{}", Theme::Default), "default");
+        assert_eq!(format!("{}", Theme::Forest), "forest");
+        assert_eq!(format!("{}", Theme::Base), "base");
+        assert_eq!(format!("{}", Theme::Dark), "dark");
+        assert_eq!(format!("{}", Theme::Neutral), "neutral");
+        assert_eq!(format!("{}", Theme::Redux), "redux");
+        assert_eq!(format!("{}", Theme::ReduxDark), "redux-dark");
+    }
+}

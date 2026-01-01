@@ -111,3 +111,56 @@ impl Color {
         new_hsl.into()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_color_from_tuple() {
+        let color = Color::from((255, 0, 0));
+        assert_eq!(color.red, 255);
+        assert_eq!(color.green, 0);
+        assert_eq!(color.blue, 0);
+    }
+
+    #[test]
+    fn test_color_to_hex() {
+        let color = Color::from((255, 0, 0));
+        assert_eq!(color.to_hex(), "#ff0000");
+    }
+
+    #[test]
+    fn test_pastel_colors() {
+        let red = Color::pastel_red();
+        assert_eq!(red.to_hex(), "#f0746c");
+
+        let blue = Color::pastel_blue();
+        assert_eq!(blue.to_hex(), "#6c74f0");
+
+        let cyan = Color::pastel_cyan();
+        assert_eq!(cyan.to_hex(), "#a7eff0");
+    }
+
+    #[test]
+    fn test_maximally_distinct() {
+        let colors = Color::maximally_distinct(3, 100, 50);
+        assert_eq!(colors.len(), 3);
+        // Check if colors are distinct enough (basic check)
+        assert_ne!(colors[0], colors[1]);
+        assert_ne!(colors[1], colors[2]);
+        assert_ne!(colors[0], colors[2]);
+    }
+
+    #[test]
+    fn test_darken_lighten() {
+        let color = Color::from((100, 100, 100));
+        let darkened = color.darken(10);
+        let lightened = color.lighten(10);
+
+        // Converting to HSL to check lightness would be ideal, but checking inequality
+        // is a start
+        assert_ne!(color, darkened);
+        assert_ne!(color, lightened);
+    }
+}

@@ -16,6 +16,20 @@ use crate::{
 #[derive(Default, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Builder for creating a `FlowchartNode`.
+///
+/// # Example
+///
+/// ```
+/// use mermaid_builder::prelude::*;
+///
+/// let node = FlowchartNodeBuilder::default()
+///     .label("My Node")
+///     .unwrap()
+///     .shape(FlowchartNodeShape::Circle)
+///     .id(0)
+///     .build()
+///     .unwrap();
+/// ```
 pub struct FlowchartNodeBuilder {
     /// Shared attributes builder for the node.
     builder: GenericNodeBuilder,

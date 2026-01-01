@@ -20,6 +20,22 @@ use crate::{
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Represents a node in a flowchart diagram, which can have various
 /// properties and may include click events.
+///
+/// # Examples
+///
+/// ```
+/// use mermaid_builder::{
+///     diagrams::flowchart::FlowchartNodeBuilder,
+///     traits::{Node, NodeBuilder},
+/// };
+///
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let node = FlowchartNodeBuilder::default().label("My Node")?.id(1).build()?;
+///
+///     assert_eq!(node.label(), "My Node");
+///     Ok(())
+/// }
+/// ```
 pub struct FlowchartNode {
     /// Underlying node structure.
     node: GenericNode,
@@ -71,35 +87,43 @@ impl Node for FlowchartNode {
 
 impl Display for FlowchartNode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        use crate::traits::TabbedDisplay;
+        self.fmt_tabbed(f, 0)
+    }
+}
+
+impl crate::traits::TabbedDisplay for FlowchartNode {
+    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+        let indent = " ".repeat(tab_count * 2);
         if self.subnodes.is_empty() {
             writeln!(
                 f,
-                "{NODE_LETTER}{}@{{shape: {}, label: \"{}\"}}",
+                "{indent}{NODE_LETTER}{}@{{shape: {}, label: \"{}\"}}",
                 self.id(),
                 self.shape,
                 self.label()
             )?;
 
             if let Some(click_event) = &self.click_event {
-                writeln!(f, " click {NODE_LETTER}{} {click_event}", self.id(),)?;
+                writeln!(f, "{indent}click {NODE_LETTER}{} {click_event}", self.id(),)?;
             }
 
             for class in self.classes() {
-                writeln!(f, "class {NODE_LETTER}{} {}", self.id(), class.name())?;
+                writeln!(f, "{indent}class {NODE_LETTER}{} {}", self.id(), class.name())?;
             }
         } else {
-            writeln!(f, "subgraph {NODE_LETTER}{} [\"`{}`\"]", self.id(), self.label())?;
+            writeln!(f, "{indent}subgraph {NODE_LETTER}{} [\"`{}`\"]", self.id(), self.label())?;
             if let Some(direction) = &self.direction {
-                writeln!(f, "    direction {direction}")?;
+                writeln!(f, "{indent}    direction {direction}")?;
             }
 
             for node in &self.subnodes {
-                write!(f, "    {node}")?;
+                node.fmt_tabbed(f, tab_count + 1)?;
             }
-            writeln!(f, "end")?;
+            writeln!(f, "{indent}end")?;
         }
         if self.has_styles() {
-            write!(f, "style {NODE_LETTER}{} ", self.id())?;
+            write!(f, "{indent}style {NODE_LETTER}{} ", self.id())?;
             for (style_number, style) in self.styles().enumerate() {
                 if style_number > 0 {
                     write!(f, ", ")?;

@@ -25,3 +25,20 @@ impl Display for JsFunctionCall {
         write!(f, "{}{}", self.function_name, args_str)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_js_function_call_display() {
+        let call = JsFunctionCall { function_name: "myFunc".to_string(), args: vec![] };
+        assert_eq!(format!("{call}"), "myFunc");
+
+        let call = JsFunctionCall {
+            function_name: "myFunc".to_string(),
+            args: vec!["arg1".to_string(), "arg2".to_string()],
+        };
+        assert_eq!(format!("{call}"), "myFunc(arg1, arg2)");
+    }
+}

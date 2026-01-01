@@ -14,6 +14,27 @@ use crate::{
 #[derive(Default, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Builder for creating a `ClassEdge`.
+///
+/// # Example
+///
+/// ```
+/// use std::rc::Rc;
+///
+/// use mermaid_builder::prelude::*;
+///
+/// let node1 = Rc::new(ClassNodeBuilder::default().label("A").unwrap().id(0).build().unwrap());
+/// let node2 = Rc::new(ClassNodeBuilder::default().label("B").unwrap().id(1).build().unwrap());
+///
+/// let edge = ClassEdgeBuilder::default()
+///     .source(node1)
+///     .unwrap()
+///     .destination(node2)
+///     .unwrap()
+///     .right_arrow_shape(ArrowShape::Triangle)
+///     .unwrap()
+///     .build()
+///     .unwrap();
+/// ```
 pub struct ClassEdgeBuilder {
     /// Underlying generic edge builder.
     edge_builder: GenericEdgeBuilder<ClassNode>,
@@ -25,12 +46,14 @@ pub struct ClassEdgeBuilder {
 
 impl ClassEdgeBuilder {
     /// Sets the left multiplicity of the edge.
+    #[must_use]
     pub fn left_multiplicity(mut self, multiplicity: Multiplicity) -> Self {
         self.left_multiplicity = Some(multiplicity);
         self
     }
 
     /// Sets the right multiplicity of the edge.
+    #[must_use]
     pub fn right_multiplicity(mut self, multiplicity: Multiplicity) -> Self {
         self.right_multiplicity = Some(multiplicity);
         self
@@ -86,5 +109,34 @@ impl EdgeBuilder for ClassEdgeBuilder {
     fn right_arrow_shape(mut self, shape: crate::shared::ArrowShape) -> Result<Self, Self::Error> {
         self.edge_builder = self.edge_builder.right_arrow_shape(shape)?;
         Ok(self)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::rc::Rc;
+
+    use super::*;
+    use crate::{
+        diagrams::class_diagram::class_node::ClassNodeBuilder, shared::ArrowShape,
+        traits::NodeBuilder,
+    };
+
+    #[test]
+    fn test_class_edge_builder() -> Result<(), Box<dyn std::error::Error>> {
+        let node1 = Rc::new(ClassNodeBuilder::default().label("A")?.id(0).build()?);
+        let node2 = Rc::new(ClassNodeBuilder::default().label("B")?.id(1).build()?);
+
+        let edge = ClassEdgeBuilder::default()
+            .source(node1)?
+            .destination(node2)?
+            .left_multiplicity(Multiplicity::One)
+            .right_multiplicity(Multiplicity::Many)
+            .right_arrow_shape(ArrowShape::Triangle)?
+            .build()?;
+
+        assert_eq!(edge.left_multiplicity, Some(Multiplicity::One));
+        assert_eq!(edge.right_multiplicity, Some(Multiplicity::Many));
+        Ok(())
     }
 }

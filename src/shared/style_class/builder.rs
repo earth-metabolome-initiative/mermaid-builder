@@ -8,6 +8,20 @@ use crate::shared::{
 #[derive(Default, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Builder struct for creating style classes in Mermaid diagrams.
+///
+/// # Example
+///
+/// ```
+/// use mermaid_builder::prelude::*;
+///
+/// let style_class = StyleClassBuilder::default()
+///     .name("myClass")
+///     .unwrap()
+///     .property(StyleProperty::Fill(Color::from((255, 0, 0))))
+///     .unwrap()
+///     .build()
+///     .unwrap();
+/// ```
 pub struct StyleClassBuilder {
     /// The name of the style class.
     name: Option<String>,
@@ -72,7 +86,48 @@ impl StyleClassBuilder {
     }
 
     /// Builds the style class.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the style class cannot be built.
     pub fn build(self) -> Result<StyleClass, StyleClassError> {
         self.try_into()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::shared::style_class::color::Color;
+
+    #[test]
+    fn test_style_class_builder() -> Result<(), StyleClassError> {
+        let style_class = StyleClassBuilder::default()
+            .name("myClass")?
+            .property(StyleProperty::Fill(Color::from((255, 0, 0))))?
+            .build()?;
+
+        assert_eq!(style_class.name, "myClass");
+        assert_eq!(style_class.properties.len(), 1);
+        Ok(())
+    }
+
+    #[test]
+    fn test_style_class_builder_errors() {
+        let builder = StyleClassBuilder::default();
+        assert!(matches!(builder.name(""), Err(StyleClassError::EmptyName)));
+
+        let builder = StyleClassBuilder::default().name("myClass").unwrap();
+        assert!(matches!(builder.build(), Err(StyleClassError::MissingProperties)));
+
+        let builder = StyleClassBuilder::default()
+            .name("myClass")
+            .unwrap()
+            .property(StyleProperty::Fill(Color::from((255, 0, 0))))
+            .unwrap();
+        assert!(matches!(
+            builder.property(StyleProperty::Fill(Color::from((255, 0, 0)))),
+            Err(StyleClassError::DuplicateProperty(_))
+        ));
     }
 }

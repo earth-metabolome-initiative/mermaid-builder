@@ -10,6 +10,20 @@ use crate::{
 };
 
 /// Builder for `ClassNode`.
+///
+/// # Example
+///
+/// ```
+/// use mermaid_builder::prelude::*;
+///
+/// let node = ClassNodeBuilder::default()
+///     .label("MyClass")
+///     .unwrap()
+///     .annotation("interface")
+///     .id(0)
+///     .build()
+///     .unwrap();
+/// ```
 #[derive(Default, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ClassNodeBuilder {
@@ -28,24 +42,28 @@ pub struct ClassNodeBuilder {
 
 impl ClassNodeBuilder {
     /// Sets the click event for the class node.
+    #[must_use]
     pub fn click_event(mut self, click_event: ClickEvent) -> Self {
         self.click_event = Some(click_event);
         self
     }
 
     /// Sets the annotation for the class node.
-    pub fn annotation<S: ToString>(mut self, annotation: S) -> Self {
+    #[must_use]
+    pub fn annotation<S: ToString + ?Sized>(mut self, annotation: &S) -> Self {
         self.annotation = Some(annotation.to_string());
         self
     }
 
     /// Adds an attribute to the class node.
+    #[must_use]
     pub fn attribute(mut self, attribute: ClassAttribute) -> Self {
         self.attributes.push(attribute);
         self
     }
 
     /// Adds a method to the class node.
+    #[must_use]
     pub fn method(mut self, method: ClassMethod) -> Self {
         self.methods.push(method);
         self

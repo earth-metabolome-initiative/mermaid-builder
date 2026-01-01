@@ -62,3 +62,36 @@ impl ArrowShape {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_arrow_shape_left() {
+        assert_eq!(ArrowShape::Normal.left(), "<");
+        assert_eq!(ArrowShape::Sharp.left(), "(");
+        assert_eq!(ArrowShape::X.left(), "x");
+        assert_eq!(ArrowShape::Circle.left(), "o");
+        assert_eq!(ArrowShape::Triangle.left(), "<|");
+        assert_eq!(ArrowShape::Star.left(), "*");
+        assert_eq!(ArrowShape::ZeroOrOne.left(), "|o");
+        assert_eq!(ArrowShape::ExactlyOne.left(), "||");
+        assert_eq!(ArrowShape::ZeroOrMore.left(), "}o");
+        assert_eq!(ArrowShape::OneOrMore.left(), "}|");
+    }
+
+    #[test]
+    fn test_arrow_shape_right() {
+        assert_eq!(ArrowShape::Normal.right(), ">");
+        assert_eq!(ArrowShape::Sharp.right(), ")");
+        assert_eq!(ArrowShape::X.right(), "x");
+        assert_eq!(ArrowShape::Circle.right(), "o");
+        assert_eq!(ArrowShape::Triangle.right(), "|>");
+        assert_eq!(ArrowShape::Star.right(), "*");
+        assert_eq!(ArrowShape::ZeroOrOne.right(), "o|");
+        assert_eq!(ArrowShape::ExactlyOne.right(), "||");
+        assert_eq!(ArrowShape::ZeroOrMore.right(), "o{");
+        assert_eq!(ArrowShape::OneOrMore.right(), "|{");
+    }
+}

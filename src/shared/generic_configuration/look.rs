@@ -28,3 +28,15 @@ impl Display for Look {
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_look_display() {
+        assert_eq!(format!("{}", Look::Neo), "neo");
+        assert_eq!(format!("{}", Look::HandDrawn), "handDrawn");
+        assert_eq!(format!("{}", Look::Classic), "classic");
+    }
+}

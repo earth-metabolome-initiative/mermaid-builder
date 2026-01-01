@@ -130,3 +130,37 @@ impl ConfigurationBuilder for GenericConfigurationBuilder {
         self
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generic_configuration_display() {
+        let config = GenericConfiguration::default();
+        assert_eq!(
+            format!("{config}"),
+            "---\nconfig:\n  layout: dagre\n  theme: default\n  look: classic\n---\n"
+        );
+    }
+
+    #[test]
+    fn test_generic_configuration_builder() -> Result<(), ConfigError> {
+        let config = GenericConfigurationBuilder::default()
+            .title("My Diagram")?
+            .renderer(Renderer::EclipseLayoutKernel)
+            .direction(Direction::TopToBottom)
+            .build()?;
+
+        assert_eq!(config.title(), Some("My Diagram"));
+        assert_eq!(config.renderer(), Renderer::EclipseLayoutKernel);
+        assert_eq!(config.direction(), Direction::TopToBottom);
+        Ok(())
+    }
+
+    #[test]
+    fn test_generic_configuration_builder_errors() {
+        let builder = GenericConfigurationBuilder::default();
+        assert!(matches!(builder.title(""), Err(ConfigError::EmptyTitle)));
+    }
+}

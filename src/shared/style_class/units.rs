@@ -22,3 +22,14 @@ impl Display for Unit {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_unit_display() {
+        assert_eq!(format!("{}", Unit::Pixel(10)), "10px");
+        assert_eq!(format!("{}", Unit::Point(12)), "12pt");
+    }
+}

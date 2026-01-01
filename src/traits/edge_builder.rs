@@ -16,6 +16,10 @@ pub trait EdgeBuilder: Sized {
     type Error;
 
     /// Builds the edge.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the edge cannot be built.
     fn build(self) -> Result<Self::Edge, Self::Error>;
 
     /// Set the label for this edge.

@@ -55,3 +55,43 @@ impl Display for Navigation {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_navigation_display() {
+        let nav = Navigation {
+            url: "https://example.com".to_string(),
+            new_tab: false,
+            anchor: false,
+            tooltip: None,
+        };
+        assert_eq!(format!("{nav}"), " \"https://example.com\"");
+
+        let nav = Navigation {
+            url: "https://example.com".to_string(),
+            new_tab: true,
+            anchor: false,
+            tooltip: None,
+        };
+        assert_eq!(format!("{nav}"), " \"https://example.com\" _blank");
+
+        let nav = Navigation {
+            url: "https://example.com".to_string(),
+            new_tab: false,
+            anchor: true,
+            tooltip: None,
+        };
+        assert_eq!(format!("{nav}"), "href \"https://example.com\"");
+
+        let nav = Navigation {
+            url: "https://example.com".to_string(),
+            new_tab: true,
+            anchor: true,
+            tooltip: Some("Tooltip".to_string()),
+        };
+        assert_eq!(format!("{nav}"), "href \"https://example.com\" \"Tooltip\" _blank");
+    }
+}

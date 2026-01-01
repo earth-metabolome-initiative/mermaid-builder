@@ -45,3 +45,24 @@ impl Display for Direction {
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_direction_display() {
+        assert_eq!(format!("{}", Direction::LeftToRight), "LR");
+        assert_eq!(format!("{}", Direction::TopToBottom), "TB");
+        assert_eq!(format!("{}", Direction::RightToLeft), "RL");
+        assert_eq!(format!("{}", Direction::BottomToTop), "BT");
+    }
+
+    #[test]
+    fn test_direction_flip() {
+        assert_eq!(Direction::LeftToRight.flip(), Direction::TopToBottom);
+        assert_eq!(Direction::TopToBottom.flip(), Direction::LeftToRight);
+        assert_eq!(Direction::RightToLeft.flip(), Direction::BottomToTop);
+        assert_eq!(Direction::BottomToTop.flip(), Direction::RightToLeft);
+    }
+}

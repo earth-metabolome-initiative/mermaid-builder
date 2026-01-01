@@ -81,3 +81,25 @@ impl ConfigurationBuilder for FlowchartConfigurationBuilder {
         self
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::shared::generic_configuration::Direction;
+
+    #[test]
+    fn test_flowchart_configuration_builder() -> Result<(), Box<dyn std::error::Error>> {
+        let config = FlowchartConfigurationBuilder::default()
+            .title("My Flowchart")?
+            .direction(Direction::TopToBottom)
+            .html_labels(true)
+            .markdown_auto_wrap(false)
+            .curve_style(CurveStyle::Basis)
+            .build()?;
+
+        assert!(config.html_labels);
+        assert!(!config.markdown_auto_wrap);
+        assert_eq!(config.curve_style, CurveStyle::Basis);
+        Ok(())
+    }
+}

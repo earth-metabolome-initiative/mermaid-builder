@@ -21,6 +21,16 @@ use crate::{
 #[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Represents a flowchart diagram in Mermaid syntax.
+///
+/// # Example
+///
+/// ```
+/// use mermaid_builder::prelude::*;
+///
+/// let mut builder = FlowchartBuilder::default();
+/// let node = builder.node(FlowchartNodeBuilder::default().label("Node").unwrap()).unwrap();
+/// let flowchart = Flowchart::from(builder);
+/// ```
 pub struct Flowchart {
     generic: GenericDiagram<FlowchartNode, FlowchartEdge, FlowchartConfiguration>,
 }
@@ -61,8 +71,16 @@ impl Diagram for Flowchart {
 
 impl Display for Flowchart {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        use crate::traits::TabbedDisplay;
+        self.fmt_tabbed(f, 0)
+    }
+}
+
+impl crate::traits::TabbedDisplay for Flowchart {
+    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+        let indent = " ".repeat(tab_count * 2);
         write!(f, "{}", self.configuration())?;
-        writeln!(f, "flowchart {}", self.configuration().direction())?;
+        writeln!(f, "{indent}flowchart {}", self.configuration().direction())?;
         for style_class in self.style_classes() {
             if !self.nodes().any(|n| n.classes().any(|sc| sc == style_class))
                 && !self.edges().any(|e| e.classes().any(|sc| sc == style_class))
@@ -70,7 +88,7 @@ impl Display for Flowchart {
                 continue;
             }
 
-            write!(f, "{style_class}")?;
+            style_class.fmt_tabbed(f, tab_count + 1)?;
         }
 
         let mut subgraph_nodes = Vec::new();
@@ -86,10 +104,10 @@ impl Display for Flowchart {
             if subgraph_nodes.contains(&node) {
                 continue;
             }
-            write!(f, "{node}")?;
+            node.fmt_tabbed(f, tab_count + 1)?;
         }
         for edge in self.edges() {
-            write!(f, "{edge}")?;
+            edge.fmt_tabbed(f, tab_count + 1)?;
         }
         Ok(())
     }

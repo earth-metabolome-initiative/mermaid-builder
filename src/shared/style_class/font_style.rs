@@ -26,3 +26,15 @@ impl Display for FontStyle {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_font_style_display() {
+        assert_eq!(format!("{}", FontStyle::Normal), "normal");
+        assert_eq!(format!("{}", FontStyle::Italic), "italic");
+        assert_eq!(format!("{}", FontStyle::Oblique), "oblique");
+    }
+}

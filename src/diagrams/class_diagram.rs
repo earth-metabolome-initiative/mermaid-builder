@@ -7,7 +7,9 @@ pub mod visibility;
 use std::fmt::Display;
 
 use class_edge::ClassEdge;
+pub use class_edge::ClassEdgeBuilder;
 use class_node::ClassNode;
+pub use class_node::ClassNodeBuilder;
 pub use configuration::ClassDiagramConfiguration;
 
 use crate::{
@@ -23,17 +25,25 @@ pub type ClassDiagramBuilder =
 
 impl Display for ClassDiagram {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.configuration())?;
-        writeln!(f, "classDiagram")?;
-        writeln!(f, "  direction {}", self.configuration().direction())?;
+        use crate::traits::TabbedDisplay;
+        self.fmt_tabbed(f, 0)
+    }
+}
+
+impl crate::traits::TabbedDisplay for ClassDiagram {
+    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+        let indent = " ".repeat(tab_count * 2);
+        write!(f, "{}", self.configuration())?; // Configuration might need tabbed display too? Usually it's frontmatter or directives.
+        writeln!(f, "{indent}classDiagram")?;
+        writeln!(f, "{indent}  direction {}", self.configuration().direction())?;
         for style_class in self.style_classes() {
-            write!(f, "  {style_class}")?;
+            style_class.fmt_tabbed(f, tab_count + 1)?;
         }
         for node in self.nodes() {
-            write!(f, "  {node}")?;
+            node.fmt_tabbed(f, tab_count + 1)?;
         }
         for edge in self.edges() {
-            write!(f, "  {edge}")?;
+            edge.fmt_tabbed(f, tab_count + 1)?;
         }
         Ok(())
     }

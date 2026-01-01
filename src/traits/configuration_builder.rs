@@ -11,6 +11,10 @@ pub trait ConfigurationBuilder: Sized {
     type Error;
 
     /// Builds the configuration.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the configuration cannot be built.
     fn build(self) -> Result<Self::Configuration, Self::Error>;
 
     /// Returns the current title of the configuration, if any.

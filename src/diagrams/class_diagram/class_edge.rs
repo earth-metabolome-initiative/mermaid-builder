@@ -17,6 +17,25 @@ pub use builder::ClassEdgeBuilder;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// An edge in a Mermaid class diagram, connecting two class nodes with optional
 /// multiplicities.
+///
+/// # Examples
+///
+/// ```
+/// use std::rc::Rc;
+///
+/// use mermaid_builder::{
+///     diagrams::class_diagram::{ClassEdgeBuilder, ClassNodeBuilder},
+///     traits::{EdgeBuilder, NodeBuilder},
+/// };
+///
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let node1 = Rc::new(ClassNodeBuilder::default().label("A")?.id(1).build()?);
+///     let node2 = Rc::new(ClassNodeBuilder::default().label("B")?.id(2).build()?);
+///
+///     let edge = ClassEdgeBuilder::default().source(node1)?.destination(node2)?.build()?;
+///     Ok(())
+/// }
+/// ```
 pub struct ClassEdge {
     /// Underlying generic edge.
     edge: GenericEdge<ClassNode>,
@@ -61,9 +80,17 @@ impl Edge for ClassEdge {
 
 impl Display for ClassEdge {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        use crate::traits::TabbedDisplay;
+        self.fmt_tabbed(f, 0)
+    }
+}
+
+impl crate::traits::TabbedDisplay for ClassEdge {
+    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+        let indent = " ".repeat(tab_count * 2);
         writeln!(
             f,
-            "{NODE_LETTER}{} {left_multiplicity}{left_arrow}{segment}{right_arrow}{right_multiplicity} {NODE_LETTER}{}{}",
+            "{indent}{NODE_LETTER}{} {left_multiplicity}{left_arrow}{segment}{right_arrow}{right_multiplicity} {NODE_LETTER}{}{}",
             self.source().id(),
             self.destination().id(),
             self.label().map_or_else(String::new, |label| format!(" : \"`{label}`\"")),

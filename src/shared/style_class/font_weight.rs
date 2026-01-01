@@ -31,3 +31,17 @@ impl Display for FontWeight {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_font_weight_display() {
+        assert_eq!(format!("{}", FontWeight::Normal), "normal");
+        assert_eq!(format!("{}", FontWeight::Bold), "bold");
+        assert_eq!(format!("{}", FontWeight::Bolder), "bolder");
+        assert_eq!(format!("{}", FontWeight::Lighter), "lighter");
+        assert_eq!(format!("{}", FontWeight::Number(400)), "400");
+    }
+}

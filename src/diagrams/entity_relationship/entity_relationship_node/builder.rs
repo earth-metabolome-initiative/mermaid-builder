@@ -15,11 +15,32 @@ use crate::{
 #[derive(Default, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Builder for the entity-relationship node in Mermaid syntax.
+///
+/// # Example
+///
+/// ```
+/// use mermaid_builder::prelude::*;
+///
+/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+///     let node = ERNodeBuilder::default().label("CUSTOMER")?.id(0).build()?;
+///     Ok(())
+/// }
+/// ```
 pub struct ERNodeBuilder {
     /// Shared attributes builder for the node.
     builder: GenericNodeBuilder,
     /// The attributes of the entity-relationship node.
     class_attributes: Vec<EntityRelationshipAttribute>,
+}
+
+impl ERNodeBuilder {
+    /// Adds an attribute to the entity-relationship node.
+    #[must_use]
+    pub fn attribute<S: ToString + ?Sized>(mut self, attribute_type: &S, name: &S) -> Self {
+        self.class_attributes
+            .push(EntityRelationshipAttribute::new(attribute_type.to_string(), name.to_string()));
+        self
+    }
 }
 
 impl TryFrom<ERNodeBuilder> for ERNode {

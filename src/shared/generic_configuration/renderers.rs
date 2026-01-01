@@ -23,3 +23,14 @@ impl Display for Renderer {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_renderer_display() {
+        assert_eq!(format!("{}", Renderer::Dagre), "dagre");
+        assert_eq!(format!("{}", Renderer::EclipseLayoutKernel), "elk");
+    }
+}

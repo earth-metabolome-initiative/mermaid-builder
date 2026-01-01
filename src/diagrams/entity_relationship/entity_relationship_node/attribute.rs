@@ -5,11 +5,19 @@ use std::fmt::Display;
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+/// Struct representing an attribute of an entity-relationship node.
 pub struct EntityRelationshipAttribute {
     /// The name of the class attribute.
     name: String,
     /// The type of the class attribute.
     attribute_type: String,
+}
+
+impl EntityRelationshipAttribute {
+    /// Creates a new entity-relationship attribute.
+    pub fn new(attribute_type: String, name: String) -> Self {
+        Self { name, attribute_type }
+    }
 }
 
 impl Display for EntityRelationshipAttribute {

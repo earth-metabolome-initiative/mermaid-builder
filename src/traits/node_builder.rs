@@ -13,6 +13,10 @@ pub trait NodeBuilder: Sized {
     type Error;
 
     /// Builds the node.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the node cannot be built.
     fn build(self) -> Result<Self::Node, Self::Error>;
 
     /// Adds the provided style class to the node being built.

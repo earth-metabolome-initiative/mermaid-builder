@@ -29,17 +29,25 @@ pub type ERDiagramBuilder = GenericDiagramBuilder<ERNode, EREdge, GenericConfigu
 
 impl Display for ERDiagram {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        use crate::traits::TabbedDisplay;
+        self.fmt_tabbed(f, 0)
+    }
+}
+
+impl crate::traits::TabbedDisplay for ERDiagram {
+    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+        let indent = " ".repeat(tab_count * 2);
         write!(f, "{}", self.configuration())?;
-        writeln!(f, "erDiagram")?;
-        writeln!(f, "direction {}", self.configuration().direction())?;
+        writeln!(f, "{indent}erDiagram")?;
+        writeln!(f, "{indent}  direction {}", self.configuration().direction())?;
         for style_class in self.style_classes() {
-            write!(f, "{style_class}")?;
+            style_class.fmt_tabbed(f, tab_count + 1)?;
         }
         for node in self.nodes() {
-            write!(f, "{node}")?;
+            node.fmt_tabbed(f, tab_count + 1)?;
         }
         for edge in self.edges() {
-            write!(f, "{edge}")?;
+            edge.fmt_tabbed(f, tab_count + 1)?;
         }
         Ok(())
     }

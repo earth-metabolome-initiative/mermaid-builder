@@ -57,3 +57,24 @@ impl ConfigurationBuilder for ClassDiagramConfigurationBuilder {
         self
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::shared::generic_configuration::Direction;
+
+    #[test]
+    fn test_class_diagram_configuration_builder() -> Result<(), Box<dyn std::error::Error>> {
+        let config = ClassDiagramConfigurationBuilder::default()
+            .title("My Class Diagram")?
+            .direction(Direction::LeftToRight)
+            .hide_empty_members_box(true)
+            .build()?;
+
+        assert!(config.hide_empty_members_box);
+        // We can't easily check generic properties without accessors on
+        // ClassDiagramConfiguration, but if build() succeeds, it means the
+        // builder worked.
+        Ok(())
+    }
+}

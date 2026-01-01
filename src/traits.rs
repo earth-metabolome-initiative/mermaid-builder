@@ -16,3 +16,5 @@ pub mod configuration;
 pub use configuration::Configuration;
 pub mod configuration_builder;
 pub use configuration_builder::ConfigurationBuilder;
+pub mod tabbed_display;
+pub use tabbed_display::TabbedDisplay;

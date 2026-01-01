@@ -22,3 +22,18 @@ impl Display for ClassAttribute {
         write!(f, "{} {}: {}", self.visibility, self.name, self.attribute_type)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_class_attribute_display() {
+        let attr = ClassAttribute {
+            name: "attr1".to_string(),
+            attribute_type: "int".to_string(),
+            visibility: Visibility::Public,
+        };
+        assert_eq!(attr.to_string(), "+ attr1: int");
+    }
+}

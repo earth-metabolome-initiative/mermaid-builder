@@ -31,3 +31,16 @@ impl Display for Visibility {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_visibility_display() {
+        assert_eq!(Visibility::Public.to_string(), "+");
+        assert_eq!(Visibility::Private.to_string(), "-");
+        assert_eq!(Visibility::Protected.to_string(), "#");
+        assert_eq!(Visibility::Package.to_string(), "~");
+    }
+}
