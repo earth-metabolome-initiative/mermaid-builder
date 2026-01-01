@@ -3,7 +3,7 @@
 [![CI](https://github.com/earth-metabolome-initiative/mermaid-builder/workflows/Rust%20CI/badge.svg)](https://github.com/earth-metabolome-initiative/mermaid-builder/actions)
 [![Security Audit](https://github.com/earth-metabolome-initiative/mermaid-builder/workflows/Security%20Audit/badge.svg)](https://github.com/earth-metabolome-initiative/mermaid-builder/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Codecov](https://codecov.io/gh/LucaCappelletti94/diesel-builders/branch/main/graph/badge.svg)](https://codecov.io/gh/LucaCappelletti94)
+[![Codecov](https://codecov.io/gh/earth-metabolome-initiative/mermaid-builder/branch/main/graph/badge.svg)](https://codecov.io/gh/earth-metabolome-initiative/mermaid-builder)
 [![Crates.io](https://img.shields.io/crates/v/mermaid-builder.svg)](https://crates.io/crates/mermaid-builder)
 [![Docs.rs](https://docs.rs/mermaid-builder/badge.svg)](https://docs.rs/mermaid-builder)
 
