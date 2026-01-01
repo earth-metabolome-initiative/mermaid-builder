@@ -2,6 +2,12 @@
 name = "mermaid-builder"
 version = "0.1.0"
 edition = "2024"
+description = "A Rust library for generating Mermaid diagrams using the builder pattern."
+license = "MIT"
+repository = "https://github.com/earth-metabolome-initiative/mermaid-builder"
+readme = "README.md"
+keywords = ["mermaid", "diagram", "builder", "visualization"]
+categories = ["visualization", "development-tools"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive", "rc"], optional = true }
