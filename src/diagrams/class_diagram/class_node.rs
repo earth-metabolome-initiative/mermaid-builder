@@ -89,7 +89,7 @@ impl Display for ClassNode {
 impl crate::traits::TabbedDisplay for ClassNode {
     fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
         let indent = " ".repeat(tab_count * 2);
-        writeln!(f, "{indent}class {NODE_LETTER}{}[{}] {{", self.id(), self.label())?;
+        writeln!(f, "{indent}class {NODE_LETTER}{}[\"{}\"] {{", self.id(), self.label())?;
         if let Some(annotation) = &self.annotation {
             writeln!(f, "{indent}    <<{annotation}>>")?;
         }

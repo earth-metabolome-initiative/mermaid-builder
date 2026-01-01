@@ -107,9 +107,9 @@ config:
 ---
 classDiagram
   direction LR
-  class v0[Animal] {
+  class v0["Animal"] {
   }
-  class v1[Dog] {
+  class v1["Dog"] {
   }
   v0 --|> v1
 "#;
@@ -128,9 +128,9 @@ config:
 ---
 classDiagram
   direction LR
-  class v0[Animal] {
+  class v0["Animal"] {
   }
-  class v1[Dog] {
+  class v1["Dog"] {
   }
   v0 --|> v1
 ```
