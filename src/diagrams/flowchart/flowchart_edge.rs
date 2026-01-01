@@ -143,3 +143,70 @@ impl crate::traits::TabbedDisplay for FlowchartEdge {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{
+        diagrams::flowchart::flowchart_node::FlowchartNodeBuilder,
+        shared::{StyleClassBuilder, style_class::Color},
+        traits::{EdgeBuilder, NodeBuilder},
+    };
+
+    #[test]
+    fn test_flowchart_edge_display() -> Result<(), Box<dyn std::error::Error>> {
+        let node1 = Rc::new(FlowchartNodeBuilder::default().label("A")?.id(0).build()?);
+        let node2 = Rc::new(FlowchartNodeBuilder::default().label("B")?.id(1).build()?);
+        let style_class = Rc::new(
+            StyleClassBuilder::default()
+                .name("myStyle")?
+                .property(StyleProperty::Stroke(Color::from((255, 0, 0))))?
+                .build()?,
+        );
+
+        let edge = FlowchartEdgeBuilder::default()
+            .id(1)
+            .source(node1.clone())?
+            .destination(node2.clone())?
+            .label("Edge Label")?
+            .line_style(LineStyle::Dashed)
+            .left_arrow_shape(ArrowShape::Circle)?
+            .right_arrow_shape(ArrowShape::X)?
+            .curve_style(CurveStyle::StepAfter)
+            .length(2)
+            .style_class(style_class.clone())?
+            .style_property(StyleProperty::Stroke(Color::from((255, 0, 0))))?
+            .build()?;
+
+        let output = format!("{edge}");
+        assert!(output.contains("v0 e1@o-..-x|\"`Edge Label`\"| v1"));
+        assert!(output.contains("e1@{curve: stepAfter}"));
+        assert!(output.contains("class e1 myStyle"));
+        assert!(output.contains("linkStyle e1 stroke: #ff0000"));
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_flowchart_edge_traits() -> Result<(), Box<dyn std::error::Error>> {
+        let node1 = Rc::new(FlowchartNodeBuilder::default().label("A")?.id(0).build()?);
+        let node2 = Rc::new(FlowchartNodeBuilder::default().label("B")?.id(1).build()?);
+        let style_class = Rc::new(
+            StyleClassBuilder::default()
+                .name("myStyle")?
+                .property(StyleProperty::Stroke(Color::from((255, 0, 0))))?
+                .build()?,
+        );
+
+        let edge = FlowchartEdgeBuilder::default()
+            .id(1)
+            .source(node1.clone())?
+            .destination(node2.clone())?
+            .style_class(style_class.clone())?
+            .build()?;
+
+        assert_eq!(edge.classes().count(), 1);
+        assert_eq!(edge.classes().next().unwrap().name(), "myStyle");
+        Ok(())
+    }
+}

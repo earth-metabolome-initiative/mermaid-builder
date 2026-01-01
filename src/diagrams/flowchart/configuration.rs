@@ -73,3 +73,50 @@ impl Configuration for FlowchartConfiguration {
         self.generic.look()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::traits::ConfigurationBuilder;
+
+    #[test]
+    fn test_flowchart_configuration_display_default() {
+        let config = FlowchartConfiguration::default();
+        assert_eq!(format!("{config}"), "");
+    }
+
+    #[test]
+    fn test_flowchart_configuration_display_full() -> Result<(), Box<dyn std::error::Error>> {
+        let config = FlowchartConfigurationBuilder::default()
+            .title("My Flowchart")?
+            .renderer(Renderer::EclipseLayoutKernel)
+            .theme(Theme::Forest)
+            .look(Look::HandDrawn)
+            .build()?;
+
+        let output = format!("{config}");
+        assert!(output.contains("title: My Flowchart"));
+        assert!(output.contains("defaultRenderer: \"elk\""));
+        assert!(output.contains("theme: forest"));
+        assert!(output.contains("look: handDrawn"));
+        Ok(())
+    }
+
+    #[test]
+    fn test_flowchart_configuration_traits() -> Result<(), Box<dyn std::error::Error>> {
+        let config = FlowchartConfigurationBuilder::default()
+            .title("My Flowchart")?
+            .direction(Direction::TopToBottom)
+            .renderer(Renderer::EclipseLayoutKernel)
+            .theme(Theme::Forest)
+            .look(Look::HandDrawn)
+            .build()?;
+
+        assert_eq!(config.title(), Some("My Flowchart"));
+        assert_eq!(config.direction(), Direction::TopToBottom);
+        assert_eq!(config.renderer(), Renderer::EclipseLayoutKernel);
+        assert_eq!(config.theme(), Theme::Forest);
+        assert_eq!(config.look(), Look::HandDrawn);
+        Ok(())
+    }
+}

@@ -94,3 +94,45 @@ impl NodeBuilder for ERNodeBuilder {
         self.builder.style_properties()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{
+        shared::{StyleClassBuilder, StyleProperty, style_class::Color},
+        traits::node::Node,
+    };
+
+    #[test]
+    fn test_er_node_builder() -> Result<(), Box<dyn std::error::Error>> {
+        let style = Rc::new(
+            StyleClassBuilder::default()
+                .name("myStyle")?
+                .property(StyleProperty::Fill(Color::from((255, 0, 0))))?
+                .build()?,
+        );
+
+        let node = ERNodeBuilder::default()
+            .id(1)
+            .label("CUSTOMER")?
+            .attribute("string", "name")
+            .attribute("int", "age")
+            .style_class(style)?
+            .style_property(StyleProperty::Fill(Color::from((255, 0, 0))))?
+            .build()?;
+
+        assert_eq!(node.node.id(), 1);
+        assert_eq!(node.node.label(), "CUSTOMER");
+        assert_eq!(node.attributes.len(), 2);
+        assert_eq!(node.attributes[0].attribute_type(), "string");
+        assert_eq!(node.attributes[0].name(), "name");
+        assert_eq!(node.attributes[1].attribute_type(), "int");
+        assert_eq!(node.attributes[1].name(), "age");
+
+        // Check styles
+        let styles: Vec<_> = node.node.styles().collect();
+        assert!(styles.contains(&&StyleProperty::Fill(Color::from((255, 0, 0)))));
+
+        Ok(())
+    }
+}

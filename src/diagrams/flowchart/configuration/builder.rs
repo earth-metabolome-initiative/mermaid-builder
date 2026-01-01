@@ -43,6 +43,20 @@ impl FlowchartConfigurationBuilder {
         self.curve_style = style;
         self
     }
+
+    /// Sets the theme to use for the diagram.
+    #[must_use]
+    pub fn theme(mut self, theme: crate::shared::generic_configuration::Theme) -> Self {
+        self.generic = self.generic.theme(theme);
+        self
+    }
+
+    /// Sets the look to use for the diagram.
+    #[must_use]
+    pub fn look(mut self, look: crate::shared::generic_configuration::Look) -> Self {
+        self.generic = self.generic.look(look);
+        self
+    }
 }
 
 impl TryFrom<FlowchartConfigurationBuilder> for FlowchartConfiguration {
@@ -85,13 +99,19 @@ impl ConfigurationBuilder for FlowchartConfigurationBuilder {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::shared::generic_configuration::Direction;
+    use crate::{
+        shared::generic_configuration::{Direction, Look, Renderer, Theme},
+        traits::Configuration,
+    };
 
     #[test]
     fn test_flowchart_configuration_builder() -> Result<(), Box<dyn std::error::Error>> {
         let config = FlowchartConfigurationBuilder::default()
             .title("My Flowchart")?
             .direction(Direction::TopToBottom)
+            .renderer(Renderer::EclipseLayoutKernel)
+            .theme(Theme::Forest)
+            .look(Look::HandDrawn)
             .html_labels(true)
             .markdown_auto_wrap(false)
             .curve_style(CurveStyle::Basis)
@@ -100,6 +120,11 @@ mod tests {
         assert!(config.html_labels);
         assert!(!config.markdown_auto_wrap);
         assert_eq!(config.curve_style, CurveStyle::Basis);
+        assert_eq!(config.title(), Some("My Flowchart"));
+        assert_eq!(config.direction(), Direction::TopToBottom);
+        assert_eq!(config.renderer(), Renderer::EclipseLayoutKernel);
+        assert_eq!(config.theme(), Theme::Forest);
+        assert_eq!(config.look(), Look::HandDrawn);
         Ok(())
     }
 }

@@ -105,10 +105,13 @@ mod tests {
         let style_class = StyleClassBuilder::default()
             .name("myClass")?
             .property(StyleProperty::Fill(Color::from((255, 0, 0))))?
+            .property(StyleProperty::Stroke(Color::from((0, 0, 255))))?
             .build()?;
 
         assert_eq!(style_class.name, "myClass");
-        assert_eq!(style_class.properties.len(), 1);
+        assert_eq!(style_class.properties.len(), 2);
+        assert!(style_class.properties.contains(&StyleProperty::Fill(Color::from((255, 0, 0)))));
+        assert!(style_class.properties.contains(&StyleProperty::Stroke(Color::from((0, 0, 255)))));
         Ok(())
     }
 

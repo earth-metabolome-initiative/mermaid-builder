@@ -185,3 +185,53 @@ impl crate::traits::TabbedDisplay for EREdge {
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{
+        diagrams::entity_relationship::entity_relationship_node::ERNodeBuilder,
+        traits::node_builder::NodeBuilder,
+    };
+
+    #[test]
+    fn test_er_edge_builder_methods() -> Result<(), Box<dyn std::error::Error>> {
+        let node1 = Rc::new(ERNodeBuilder::default().label("A")?.id(0).build()?);
+        let node2 = Rc::new(ERNodeBuilder::default().label("B")?.id(1).build()?);
+
+        let edge_zero_one = EREdgeBuilder::zero_or_one(node1.clone(), node2.clone()).build()?;
+        assert_eq!(edge_zero_one.left_arrow_shape(), Some(ArrowShape::ZeroOrOne));
+        assert_eq!(edge_zero_one.right_arrow_shape(), Some(ArrowShape::ZeroOrOne));
+
+        let edge_one_one = EREdgeBuilder::one_to_one(node1.clone(), node2.clone()).build()?;
+        assert_eq!(edge_one_one.left_arrow_shape(), Some(ArrowShape::ExactlyOne));
+        assert_eq!(edge_one_one.right_arrow_shape(), Some(ArrowShape::ExactlyOne));
+
+        let edge_zero_more = EREdgeBuilder::zero_or_more(node1.clone(), node2.clone()).build()?;
+        assert_eq!(edge_zero_more.left_arrow_shape(), Some(ArrowShape::ZeroOrMore));
+        assert_eq!(edge_zero_more.right_arrow_shape(), Some(ArrowShape::ZeroOrMore));
+
+        let edge_one_more = EREdgeBuilder::one_or_more(node1.clone(), node2.clone()).build()?;
+        assert_eq!(edge_one_more.left_arrow_shape(), Some(ArrowShape::OneOrMore));
+        assert_eq!(edge_one_more.right_arrow_shape(), Some(ArrowShape::OneOrMore));
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_er_edge_display() -> Result<(), Box<dyn std::error::Error>> {
+        let node1 = Rc::new(ERNodeBuilder::default().label("A")?.id(0).build()?);
+        let node2 = Rc::new(ERNodeBuilder::default().label("B")?.id(1).build()?);
+
+        let edge = EREdgeBuilder::zero_or_one(node1, node2).label("relates to")?.build()?;
+
+        let output = format!("{edge}");
+        // Expected format: v0 |o--o| v1 : "relates to"
+        assert!(output.contains("v0"));
+        assert!(output.contains("v1"));
+        assert!(output.contains("relates to"));
+        assert!(output.contains("|o--o|"));
+
+        Ok(())
+    }
+}

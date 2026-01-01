@@ -15,8 +15,39 @@ pub struct EntityRelationshipAttribute {
 
 impl EntityRelationshipAttribute {
     /// Creates a new entity-relationship attribute.
+    #[must_use]
     pub fn new(attribute_type: String, name: String) -> Self {
         Self { name, attribute_type }
+    }
+
+    /// Returns the name of the attribute.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mermaid_builder::diagrams::entity_relationship::EntityRelationshipAttribute;
+    ///
+    /// let attribute = EntityRelationshipAttribute::new("string".to_string(), "username".to_string());
+    /// assert_eq!(attribute.name(), "username");
+    /// ```
+    #[must_use]
+    pub fn name(&self) -> &str {
+        &self.name
+    }
+
+    /// Returns the type of the attribute.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mermaid_builder::diagrams::entity_relationship::EntityRelationshipAttribute;
+    ///
+    /// let attribute = EntityRelationshipAttribute::new("string".to_string(), "username".to_string());
+    /// assert_eq!(attribute.attribute_type(), "string");
+    /// ```
+    #[must_use]
+    pub fn attribute_type(&self) -> &str {
+        &self.attribute_type
     }
 }
 

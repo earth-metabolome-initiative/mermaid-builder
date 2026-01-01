@@ -36,6 +36,22 @@ pub struct ClassMethod {
     visibility: Visibility,
 }
 
+impl ClassMethod {
+    /// Creates a new class method.
+    pub fn new(
+        return_type: impl Into<String>,
+        name: impl Into<String>,
+        arguments: Vec<Argument>,
+    ) -> Self {
+        Self {
+            name: name.into(),
+            arguments,
+            return_type: Some(return_type.into()),
+            visibility: Visibility::Public,
+        }
+    }
+}
+
 impl Display for ClassMethod {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.visibility)?;

@@ -127,3 +127,48 @@ impl NodeBuilder for ClassNodeBuilder {
         self.builder.style_properties()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{
+        diagrams::class_diagram::class_node::{ClassAttribute, ClassMethod},
+        shared::{
+            ClickEvent, StyleClassBuilder, StyleProperty, click_event::Navigation,
+            style_class::Unit,
+        },
+        traits::node::Node,
+    };
+
+    #[test]
+    fn test_class_node_builder() -> Result<(), Box<dyn std::error::Error>> {
+        let style_class = Rc::new(
+            StyleClassBuilder::default()
+                .name("test")?
+                .property(StyleProperty::StrokeWidth(Unit::Pixel(2)))?
+                .build()?,
+        );
+
+        let node = ClassNodeBuilder::default()
+            .id(1)
+            .label("MyClass")?
+            .annotation("interface")
+            .attribute(ClassAttribute::new("int", "id"))
+            .method(ClassMethod::new("void", "method", vec![]))
+            .click_event(ClickEvent::Navigation(Navigation::new("https://example.com")))
+            .style_class(style_class.clone())?
+            .style_property(StyleProperty::StrokeWidth(Unit::Pixel(2)))?
+            .build()?;
+
+        assert_eq!(node.id(), 1);
+        assert_eq!(node.label(), "MyClass");
+        assert_eq!(node.annotation, Some("interface".to_string()));
+        assert_eq!(node.attributes.len(), 1);
+        assert_eq!(node.methods.len(), 1);
+        assert!(matches!(node.click_event, Some(ClickEvent::Navigation(_))));
+        assert_eq!(node.classes().count(), 1);
+        assert_eq!(node.styles().count(), 1);
+
+        Ok(())
+    }
+}

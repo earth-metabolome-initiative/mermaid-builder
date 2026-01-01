@@ -131,6 +131,22 @@ impl ConfigurationBuilder for GenericConfigurationBuilder {
     }
 }
 
+impl GenericConfigurationBuilder {
+    /// Sets the theme to use for the diagram.
+    #[must_use]
+    pub fn theme(mut self, theme: Theme) -> Self {
+        self.theme = theme;
+        self
+    }
+
+    /// Sets the look to use for the diagram.
+    #[must_use]
+    pub fn look(mut self, look: Look) -> Self {
+        self.look = look;
+        self
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -150,11 +166,15 @@ mod tests {
             .title("My Diagram")?
             .renderer(Renderer::EclipseLayoutKernel)
             .direction(Direction::TopToBottom)
+            .theme(Theme::Forest)
+            .look(Look::HandDrawn)
             .build()?;
 
         assert_eq!(config.title(), Some("My Diagram"));
         assert_eq!(config.renderer(), Renderer::EclipseLayoutKernel);
         assert_eq!(config.direction(), Direction::TopToBottom);
+        assert_eq!(config.theme(), Theme::Forest);
+        assert_eq!(config.look(), Look::HandDrawn);
         Ok(())
     }
 

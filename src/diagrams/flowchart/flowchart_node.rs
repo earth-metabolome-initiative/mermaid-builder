@@ -135,3 +135,75 @@ impl crate::traits::TabbedDisplay for FlowchartNode {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{
+        shared::{
+            ClickEvent, StyleClassBuilder, StyleProperty, click_event::Navigation,
+            style_class::Color,
+        },
+        traits::NodeBuilder,
+    };
+
+    #[test]
+    fn test_flowchart_node_display_simple() -> Result<(), Box<dyn std::error::Error>> {
+        let node = FlowchartNodeBuilder::default()
+            .label("My Node")?
+            .id(1)
+            .shape(FlowchartNodeShape::Circle)
+            .build()?;
+
+        let output = format!("{node}");
+        assert!(output.contains("v1@{shape: circle, label: \"My Node\"}"));
+        Ok(())
+    }
+
+    #[test]
+    fn test_flowchart_node_display_full() -> Result<(), Box<dyn std::error::Error>> {
+        let style_class = Rc::new(
+            StyleClassBuilder::default()
+                .name("myClass")?
+                .property(StyleProperty::Fill(Color::from((255, 0, 0))))?
+                .build()?,
+        );
+
+        let node = FlowchartNodeBuilder::default()
+            .label("My Node")?
+            .id(1)
+            .shape(FlowchartNodeShape::Rectangle)
+            .style_class(style_class)?
+            .style_property(StyleProperty::Stroke(Color::from((0, 0, 255))))?
+            .click_event(ClickEvent::Navigation(
+                Navigation::new("https://example.com").anchor(true).tooltip("Open link"),
+            ))
+            .build()?;
+
+        let output = format!("{node}");
+        assert!(output.contains("v1@{shape: rect, label: \"My Node\"}"));
+        assert!(output.contains("click v1 href \"https://example.com\" \"Open link\""));
+        assert!(output.contains("class v1 myClass"));
+        assert!(output.contains("style v1 stroke: #0000ff"));
+        Ok(())
+    }
+
+    #[test]
+    fn test_flowchart_node_subgraph() -> Result<(), Box<dyn std::error::Error>> {
+        let subnode = Rc::new(FlowchartNodeBuilder::default().label("Sub Node")?.id(2).build()?);
+
+        let node = FlowchartNodeBuilder::default()
+            .label("My Subgraph")?
+            .id(1)
+            .subnode(subnode)?
+            .direction(Direction::LeftToRight)
+            .build()?;
+
+        let output = format!("{node}");
+        assert!(output.contains("subgraph v1 [\"`My Subgraph`\"]"));
+        assert!(output.contains("direction LR"));
+        assert!(output.contains("v2@{shape: rect, label: \"Sub Node\"}"));
+        assert!(output.contains("end"));
+        Ok(())
+    }
+}

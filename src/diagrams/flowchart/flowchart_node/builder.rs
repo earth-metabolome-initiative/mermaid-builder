@@ -171,3 +171,65 @@ impl NodeBuilder for FlowchartNodeBuilder {
         self.builder.style_properties()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{
+        shared::{
+            ClickEvent, StyleClassBuilder, StyleProperty, click_event::Navigation,
+            style_class::Unit,
+        },
+        traits::node::Node,
+    };
+
+    #[test]
+    fn test_flowchart_node_builder() -> Result<(), Box<dyn std::error::Error>> {
+        let style_class = Rc::new(
+            StyleClassBuilder::default()
+                .name("test")?
+                .property(StyleProperty::StrokeWidth(Unit::Pixel(2)))?
+                .build()?,
+        );
+        let subnode = Rc::new(FlowchartNodeBuilder::default().label("Sub")?.id(2).build()?);
+
+        let node = FlowchartNodeBuilder::default()
+            .id(1)
+            .label("My Node")?
+            .shape(FlowchartNodeShape::Circle)
+            .click_event(ClickEvent::Navigation(Navigation::new("https://example.com")))
+            .subnode(subnode.clone())?
+            .direction(Direction::TopToBottom)
+            .style_class(style_class.clone())?
+            .style_property(StyleProperty::StrokeWidth(Unit::Pixel(2)))?
+            .build()?;
+
+        assert_eq!(node.id(), 1);
+        assert_eq!(node.label(), "My Node");
+        assert_eq!(node.shape, FlowchartNodeShape::Circle);
+        assert!(matches!(node.click_event, Some(ClickEvent::Navigation { .. })));
+        assert_eq!(node.subnodes.len(), 1);
+        assert_eq!(node.direction, Some(Direction::TopToBottom));
+        assert_eq!(node.classes().count(), 1);
+        assert_eq!(node.styles().count(), 1);
+        Ok(())
+    }
+
+    #[test]
+    fn test_flowchart_node_builder_subgraph_methods() -> Result<(), Box<dyn std::error::Error>> {
+        let mut builder = FlowchartNodeBuilder::default();
+        assert!(!builder.is_subgraph());
+
+        let subnode = Rc::new(FlowchartNodeBuilder::default().label("Sub")?.id(2).build()?);
+        builder = builder.subnode(subnode)?;
+        assert!(builder.is_subgraph());
+
+        builder = builder.direction(Direction::LeftToRight);
+        assert_eq!(builder.get_direction(), Some(Direction::LeftToRight));
+
+        builder = builder.reset_direction();
+        assert_eq!(builder.get_direction(), None);
+
+        Ok(())
+    }
+}

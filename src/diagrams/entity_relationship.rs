@@ -1,14 +1,14 @@
 //! Submodule providing structs to characterize an ER (Entity-Relationship)
 //! Diagram in Mermaid syntax.
 
-mod entity_relationship_edge;
-mod entity_relationship_node;
+pub mod entity_relationship_edge;
+pub mod entity_relationship_node;
 use std::fmt::Display;
 
 use entity_relationship_edge::EREdge;
 pub use entity_relationship_edge::EREdgeBuilder;
 use entity_relationship_node::ERNode;
-pub use entity_relationship_node::ERNodeBuilder;
+pub use entity_relationship_node::{ERNodeBuilder, attribute::EntityRelationshipAttribute};
 
 use crate::{
     shared::{

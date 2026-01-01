@@ -118,8 +118,9 @@ mod tests {
 
     use super::*;
     use crate::{
-        diagrams::class_diagram::class_node::ClassNodeBuilder, shared::ArrowShape,
-        traits::NodeBuilder,
+        diagrams::class_diagram::class_node::ClassNodeBuilder,
+        shared::{ArrowShape, LineStyle},
+        traits::{NodeBuilder, edge::Edge, node::Node},
     };
 
     #[test]
@@ -128,15 +129,24 @@ mod tests {
         let node2 = Rc::new(ClassNodeBuilder::default().label("B")?.id(1).build()?);
 
         let edge = ClassEdgeBuilder::default()
-            .source(node1)?
-            .destination(node2)?
+            .source(node1.clone())?
+            .destination(node2.clone())?
+            .label("Edge Label")?
+            .line_style(LineStyle::Dashed)
             .left_multiplicity(Multiplicity::One)
             .right_multiplicity(Multiplicity::Many)
+            .left_arrow_shape(ArrowShape::Circle)?
             .right_arrow_shape(ArrowShape::Triangle)?
             .build()?;
 
+        assert_eq!(edge.source().id(), 0);
+        assert_eq!(edge.destination().id(), 1);
+        assert_eq!(edge.label(), Some("Edge Label"));
+        assert_eq!(edge.line_style(), LineStyle::Dashed);
         assert_eq!(edge.left_multiplicity, Some(Multiplicity::One));
         assert_eq!(edge.right_multiplicity, Some(Multiplicity::Many));
+        assert_eq!(edge.left_arrow_shape(), Some(ArrowShape::Circle));
+        assert_eq!(edge.right_arrow_shape(), Some(ArrowShape::Triangle));
         Ok(())
     }
 }

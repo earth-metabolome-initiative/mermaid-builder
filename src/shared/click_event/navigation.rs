@@ -34,6 +34,32 @@ pub struct Navigation {
     tooltip: Option<String>,
 }
 
+impl Navigation {
+    /// Creates a new navigation event.
+    pub fn new(url: impl Into<String>) -> Self {
+        Self { url: url.into(), new_tab: false, anchor: false, tooltip: None }
+    }
+
+    /// Sets whether to open the link in a new tab.
+    pub fn new_tab(mut self, new_tab: bool) -> Self {
+        self.new_tab = new_tab;
+        self
+    }
+
+    /// Sets whether to employ an anchor-like link or a JavaScript function for
+    /// navigation.
+    pub fn anchor(mut self, anchor: bool) -> Self {
+        self.anchor = anchor;
+        self
+    }
+
+    /// Sets the tooltip for the navigation link.
+    pub fn tooltip(mut self, tooltip: impl Into<String>) -> Self {
+        self.tooltip = Some(tooltip.into());
+        self
+    }
+}
+
 impl Display for Navigation {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         // We omit the `click {node_name}` part as it is not relevant for the

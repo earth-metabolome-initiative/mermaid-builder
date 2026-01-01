@@ -3,7 +3,7 @@
 
 use std::fmt::Display;
 
-mod attribute;
+pub mod attribute;
 mod builder;
 use attribute::EntityRelationshipAttribute;
 pub use builder::ERNodeBuilder;

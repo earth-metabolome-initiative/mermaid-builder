@@ -178,3 +178,54 @@ impl EdgeBuilder for FlowchartEdgeBuilder {
         Ok(self)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::rc::Rc;
+
+    use super::*;
+    use crate::{
+        diagrams::flowchart::flowchart_node::FlowchartNodeBuilder,
+        shared::{ArrowShape, LineStyle, StyleClassBuilder, style_class::Unit},
+        traits::{NodeBuilder, edge::Edge, node::Node},
+    };
+
+    #[test]
+    fn test_flowchart_edge_builder() -> Result<(), Box<dyn std::error::Error>> {
+        let node1 = Rc::new(FlowchartNodeBuilder::default().label("A")?.id(0).build()?);
+        let node2 = Rc::new(FlowchartNodeBuilder::default().label("B")?.id(1).build()?);
+        let style_class = Rc::new(
+            StyleClassBuilder::default()
+                .name("test")?
+                .property(StyleProperty::StrokeWidth(Unit::Pixel(2)))?
+                .build()?,
+        );
+
+        let edge = FlowchartEdgeBuilder::default()
+            .id(1)
+            .source(node1.clone())?
+            .destination(node2.clone())?
+            .label("Edge Label")?
+            .line_style(LineStyle::Dashed)
+            .left_arrow_shape(ArrowShape::Circle)?
+            .right_arrow_shape(ArrowShape::X)?
+            .curve_style(CurveStyle::StepAfter)
+            .length(2)
+            .style_class(style_class.clone())?
+            .style_property(StyleProperty::StrokeWidth(Unit::Pixel(2)))?
+            .build()?;
+
+        assert_eq!(edge.id, 1);
+        assert_eq!(edge.source().id(), 0);
+        assert_eq!(edge.destination().id(), 1);
+        assert_eq!(edge.label(), Some("Edge Label"));
+        assert_eq!(edge.line_style(), LineStyle::Dashed);
+        assert_eq!(edge.left_arrow_shape(), Some(ArrowShape::Circle));
+        assert_eq!(edge.right_arrow_shape(), Some(ArrowShape::X));
+        assert_eq!(edge.curve_style, CurveStyle::StepAfter);
+        assert_eq!(edge.length, 2);
+        assert_eq!(edge.style_classes.len(), 1);
+        assert_eq!(edge.style_properties.len(), 1);
+        Ok(())
+    }
+}

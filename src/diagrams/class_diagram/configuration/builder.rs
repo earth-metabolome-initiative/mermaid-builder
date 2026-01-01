@@ -21,6 +21,18 @@ impl ClassDiagramConfigurationBuilder {
         self.hide_empty_members_box = hide;
         self
     }
+
+    /// Sets the theme to use for the diagram.
+    pub fn theme(mut self, theme: crate::shared::generic_configuration::Theme) -> Self {
+        self.generic = self.generic.theme(theme);
+        self
+    }
+
+    /// Sets the look to use for the diagram.
+    pub fn look(mut self, look: crate::shared::generic_configuration::Look) -> Self {
+        self.generic = self.generic.look(look);
+        self
+    }
 }
 
 impl TryFrom<ClassDiagramConfigurationBuilder> for ClassDiagramConfiguration {
@@ -61,20 +73,28 @@ impl ConfigurationBuilder for ClassDiagramConfigurationBuilder {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::shared::generic_configuration::Direction;
+    use crate::{
+        shared::generic_configuration::{Direction, Look, Renderer, Theme},
+        traits::Configuration,
+    };
 
     #[test]
     fn test_class_diagram_configuration_builder() -> Result<(), Box<dyn std::error::Error>> {
         let config = ClassDiagramConfigurationBuilder::default()
             .title("My Class Diagram")?
             .direction(Direction::LeftToRight)
+            .renderer(Renderer::Dagre)
+            .theme(Theme::Forest)
+            .look(Look::HandDrawn)
             .hide_empty_members_box(true)
             .build()?;
 
         assert!(config.hide_empty_members_box);
-        // We can't easily check generic properties without accessors on
-        // ClassDiagramConfiguration, but if build() succeeds, it means the
-        // builder worked.
+        assert_eq!(config.title(), Some("My Class Diagram"));
+        assert_eq!(config.direction(), Direction::LeftToRight);
+        assert_eq!(config.renderer(), Renderer::Dagre);
+        assert_eq!(config.theme(), Theme::Forest);
+        assert_eq!(config.look(), Look::HandDrawn);
         Ok(())
     }
 }

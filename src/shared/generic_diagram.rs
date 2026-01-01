@@ -195,3 +195,186 @@ where
         Ok(rc)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::rc::Rc;
+
+    use super::*;
+    use crate::{
+        diagrams::flowchart::{
+            FlowchartConfiguration, FlowchartConfigurationBuilder, FlowchartEdge,
+            FlowchartEdgeBuilder, FlowchartNode, FlowchartNodeBuilder,
+        },
+        shared::{StyleClassBuilder, StyleProperty, style_class::Unit},
+        traits::{ConfigurationBuilder, EdgeBuilder, NodeBuilder},
+    };
+
+    #[test]
+    fn test_generic_diagram_builder() -> Result<(), Box<dyn std::error::Error>> {
+        let mut builder =
+            GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
+            );
+
+        // Test Node
+        let node_builder = FlowchartNodeBuilder::default().label("Node 1")?.id(1);
+        let node1 = builder.node(node_builder)?;
+        assert_eq!(node1.id(), 1);
+
+        let node_builder2 = FlowchartNodeBuilder::default().label("Node 2")?.id(2);
+        let node2 = builder.node(node_builder2)?;
+        assert_eq!(node2.id(), 2);
+
+        // Test Edge
+        let edge_builder = FlowchartEdgeBuilder::default()
+            .source(node1.clone())?
+            .destination(node2.clone())?
+            .id(1);
+        let edge = builder.edge(edge_builder)?;
+        assert_eq!(edge.source().id(), 1);
+        assert_eq!(edge.destination().id(), 2);
+
+        // Test Config
+        let config_builder = FlowchartConfigurationBuilder::default().title("My Diagram")?;
+        builder = builder.configuration(config_builder)?;
+
+        let diagram: GenericDiagram<FlowchartNode, FlowchartEdge, FlowchartConfiguration> =
+            builder.into();
+
+        assert_eq!(diagram.nodes().count(), 2);
+        assert_eq!(diagram.edges().count(), 1);
+        assert_eq!(diagram.configuration().title(), Some("My Diagram"));
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_generic_diagram_methods() -> Result<(), Box<dyn std::error::Error>> {
+        let mut builder =
+            GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
+            );
+
+        let node_builder = FlowchartNodeBuilder::default().label("Node 1")?.id(1);
+        builder.node(node_builder)?;
+
+        // Test Builder methods
+        assert_eq!(builder.number_of_nodes(), 1);
+        assert_eq!(builder.number_of_edges(), 0);
+        assert!(builder.get_node_by_id(1).is_some());
+        assert!(builder.get_node_by_id(2).is_none());
+        assert_eq!(builder.nodes().count(), 1);
+
+        let diagram: GenericDiagram<FlowchartNode, FlowchartEdge, FlowchartConfiguration> =
+            builder.into();
+
+        assert_eq!(diagram.nodes().count(), 1);
+        assert_eq!(diagram.edges().count(), 0);
+        assert!(diagram.get_node_by_id(1).is_some());
+        assert!(diagram.get_node_by_id(2).is_none());
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_style_class_management() -> Result<(), Box<dyn std::error::Error>> {
+        let mut builder =
+            GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
+            );
+
+        let style_class_builder = StyleClassBuilder::default()
+            .name("test_class")?
+            .property(StyleProperty::StrokeWidth(Unit::Pixel(1)))?;
+        let style_class = builder.style_class(style_class_builder)?;
+
+        assert_eq!(style_class.name(), "test_class");
+
+        // Test Builder methods
+        assert!(builder.get_style_class_by_name("test_class").is_some());
+        assert!(builder.get_style_class_by_name("unknown").is_none());
+
+        // Test duplicate class
+        let style_class_builder_dup = StyleClassBuilder::default()
+            .name("test_class")?
+            .property(StyleProperty::StrokeWidth(Unit::Pixel(1)))?;
+        let result = builder.style_class(style_class_builder_dup);
+        assert!(result.is_err());
+
+        let diagram: GenericDiagram<FlowchartNode, FlowchartEdge, FlowchartConfiguration> =
+            builder.into();
+        assert!(diagram.get_style_class_by_name("test_class").is_some());
+        assert!(diagram.get_style_class_by_name("unknown").is_none());
+        assert_eq!(diagram.style_classes().count(), 1);
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_node_with_unknown_class() -> Result<(), Box<dyn std::error::Error>> {
+        let mut builder =
+            GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
+            );
+
+        let class = StyleClassBuilder::default()
+            .name("unknown")?
+            .property(StyleProperty::StrokeWidth(Unit::Pixel(2)))?
+            .build()?;
+
+        let node_builder =
+            FlowchartNodeBuilder::default().label("Node 1")?.id(1).style_class(Rc::new(class))?;
+
+        let result = builder.node(node_builder);
+        assert!(result.is_err());
+        Ok(())
+    }
+
+    #[test]
+    fn test_edge_with_unknown_nodes() -> Result<(), Box<dyn std::error::Error>> {
+        let mut builder =
+            GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
+            );
+
+        let node1 = Rc::new(FlowchartNodeBuilder::default().label("Node 1")?.id(1).build()?);
+        let node2 = Rc::new(FlowchartNodeBuilder::default().label("Node 2")?.id(2).build()?);
+
+        let edge_builder = FlowchartEdgeBuilder::default().source(node1)?.destination(node2)?.id(1);
+
+        let result = builder.edge(edge_builder);
+        assert!(result.is_err());
+        Ok(())
+    }
+
+    #[test]
+    fn test_edge_destination_node_not_found() -> Result<(), Box<dyn std::error::Error>> {
+        let mut builder =
+            GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
+            );
+
+        let node1_builder = FlowchartNodeBuilder::default().label("Node 1")?.id(1);
+        let node1 = builder.node(node1_builder)?;
+
+        let node2 = Rc::new(FlowchartNodeBuilder::default().label("Node 2")?.id(2).build()?);
+
+        let edge_builder = FlowchartEdgeBuilder::default().source(node1)?.destination(node2)?.id(1);
+
+        let result = builder.edge(edge_builder);
+        assert!(result.is_err());
+        Ok(())
+    }
+
+    #[test]
+    fn test_node_auto_id() -> Result<(), Box<dyn std::error::Error>> {
+        let mut builder =
+            GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
+            );
+
+        let node_builder = FlowchartNodeBuilder::default().label("Node 1")?;
+        let node = builder.node(node_builder)?;
+        assert_eq!(node.id(), 0);
+
+        let node_builder2 = FlowchartNodeBuilder::default().label("Node 2")?;
+        let node2 = builder.node(node_builder2)?;
+        assert_eq!(node2.id(), 1);
+
+        Ok(())
+    }
+}

@@ -17,6 +17,17 @@ pub struct ClassAttribute {
     visibility: Visibility,
 }
 
+impl ClassAttribute {
+    /// Creates a new class attribute.
+    pub fn new(attribute_type: impl Into<String>, name: impl Into<String>) -> Self {
+        Self {
+            name: name.into(),
+            attribute_type: attribute_type.into(),
+            visibility: Visibility::Public,
+        }
+    }
+}
+
 impl Display for ClassAttribute {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{} {}: {}", self.visibility, self.name, self.attribute_type)
