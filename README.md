@@ -65,6 +65,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
+Output:
+
+```mermaid
+flowchart LR
+  v0@{shape: rect, label: "Start"}
+  v1@{shape: rect, label: "End"}
+  v0 ---> v1
+```
+
 ### Class Diagram
 
 ```rust
@@ -109,6 +118,23 @@ classDiagram
 }
 ```
 
+Output:
+
+```mermaid
+---
+config:
+  class:
+    hideEmptyMembersBox: "false"
+---
+classDiagram
+  direction LR
+  class v0[Animal] {
+  }
+  class v1[Dog] {
+  }
+  v0 --|> v1
+```
+
 ### Entity Relationship Diagram
 
 ```rust
@@ -144,6 +170,22 @@ erDiagram
     assert_eq!(er_diagram.to_string(), expected);
     Ok(())
 }
+```
+
+Output:
+
+```mermaid
+---
+config:
+  layout: dagre
+  theme: default
+  look: classic
+---
+erDiagram
+  direction LR
+  v0["CUSTOMER"]
+  v1["ORDER"]
+  v0 }|--|{ v1 : ""
 ```
 
 ## Contributing
