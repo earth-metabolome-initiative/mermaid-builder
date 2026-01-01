@@ -1,0 +1,32 @@
+[package]
+name = "mermaid-builder"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive", "rc"], optional = true }
+colorsys = "0.7.0"
+thiserror = "2.0"
+
+[features]
+default = ["serde"]
+serde = ["dep:serde"]
+
+[lints.rust]
+missing_docs = "forbid"
+unused_macro_rules = "forbid"
+unconditional_recursion = "forbid"
+unreachable_patterns = "forbid"
+unused_import_braces = "forbid"
+unused_must_use = "forbid"
+deprecated = "deny"
+
+[lints.clippy]
+unreadable_literal = "allow"
+missing_panics_doc = "allow"
+new_ret_no_self = "allow"
+struct_excessive_bools = "allow"
+should_panic_without_expect = "allow"
+doc_markdown = "allow"
+clone_on_copy = "forbid"
+pedantic = { level = "deny", priority = -1 }
