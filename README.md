@@ -7,28 +7,17 @@
 [![Crates.io](https://img.shields.io/crates/v/mermaid-builder.svg)](https://crates.io/crates/mermaid-builder)
 [![Docs.rs](https://docs.rs/mermaid-builder/badge.svg)](https://docs.rs/mermaid-builder)
 
-**Mermaid Builder** is a Rust crate that provides a type-safe, builder-pattern-based API for generating [Mermaid](https://mermaid.js.org/) diagram syntax. It allows you to define diagrams programmatically in Rust and export them as strings that can be rendered by Mermaid tools.
-
-## Installation
-
-Add this to your `Cargo.toml`:
-
-```toml
-[dependencies]
-mermaid-builder = "0.1.0"
-```
-
-Or run:
-
-```bash
-cargo add mermaid-builder
-```
+**Mermaid Builder** is a Rust crate for generating [Mermaid](https://mermaid.js.org/) diagram syntax. It uses a builder pattern to provide a type-safe API, allowing you to define diagrams programmatically in Rust. You can then export these diagrams as strings to be rendered by Mermaid tools.
 
 ## Examples
 
 ### Flowchart
 
-For more details, check the documentation for [`FlowchartBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartBuilder.html), [`FlowchartNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartNodeBuilder.html), [`FlowchartEdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartEdgeBuilder.html), and [`Flowchart`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.Flowchart.html).
+Flowcharts represent workflows or processes using nodes (shapes) and edges (arrows).
+
+For more details on the Rust implementation, check the documentation for [`FlowchartBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartBuilder.html), [`FlowchartNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartNodeBuilder.html), [`FlowchartEdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.FlowchartEdgeBuilder.html), and [`Flowchart`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/flowchart/struct.Flowchart.html).
+
+For more information about the Mermaid syntax, please refer to the [Mermaid Flowchart documentation](https://mermaid.js.org/syntax/flowchart.html).
 
 ```rust
 use mermaid_builder::prelude::*;
@@ -78,7 +67,11 @@ flowchart LR
 
 ### Class Diagram
 
-For more details, check the documentation for [`ClassDiagramBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/type.ClassDiagramBuilder.html), [`ClassNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/class_node/struct.ClassNodeBuilder.html), [`ClassEdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/class_edge/builder/struct.ClassEdgeBuilder.html), and [`ClassDiagram`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/type.ClassDiagram.html).
+Class diagrams describe the structure of a system by showing classes, their attributes, methods, and relationships.
+
+For more details on the Rust implementation, check the documentation for [`ClassDiagramBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/type.ClassDiagramBuilder.html), [`ClassNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/class_node/struct.ClassNodeBuilder.html), [`ClassEdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/class_edge/builder/struct.ClassEdgeBuilder.html), and [`ClassDiagram`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/class_diagram/type.ClassDiagram.html).
+
+For more information about the Mermaid syntax, please refer to the [Mermaid Class Diagram documentation](https://mermaid.js.org/syntax/classDiagram.html).
 
 ```rust
 use mermaid_builder::prelude::*;
@@ -141,7 +134,11 @@ classDiagram
 
 ### Entity Relationship Diagram
 
-For more details, check the documentation for [`ERDiagramBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/type.ERDiagramBuilder.html), [`ERNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/entity_relationship_node/struct.ERNodeBuilder.html), [`EREdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/entity_relationship_edge/type.EREdgeBuilder.html), and [`ERDiagram`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/type.ERDiagram.html).
+Entity Relationship (ER) diagrams model entities and the relationships between them. They are commonly used to design database schemas.
+
+For more details on the Rust implementation, check the documentation for [`ERDiagramBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/type.ERDiagramBuilder.html), [`ERNodeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/entity_relationship_node/struct.ERNodeBuilder.html), [`EREdgeBuilder`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/entity_relationship_edge/type.EREdgeBuilder.html), and [`ERDiagram`](https://docs.rs/mermaid-builder/latest/mermaid_builder/diagrams/entity_relationship/type.ERDiagram.html).
+
+For more information about the Mermaid syntax, please refer to the [Mermaid Entity Relationship Diagram documentation](https://mermaid.js.org/syntax/entityRelationshipDiagram.html).
 
 ```rust
 use mermaid_builder::prelude::*;
