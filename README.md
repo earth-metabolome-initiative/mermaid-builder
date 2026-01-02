@@ -7,7 +7,7 @@
 [![Crates.io](https://img.shields.io/crates/v/mermaid-builder.svg)](https://crates.io/crates/mermaid-builder)
 [![Docs.rs](https://docs.rs/mermaid-builder/badge.svg)](https://docs.rs/mermaid-builder)
 
-**Mermaid Builder** is a Rust crate for generating [Mermaid](https://mermaid.js.org/) diagram syntax. It uses a builder pattern to provide a type-safe API, allowing you to define diagrams programmatically in Rust. You can then export these diagrams as strings to be rendered by Mermaid tools.
+**Mermaid Builder** is a Rust crate that provides a type-safe, builder-pattern-based API for generating [Mermaid](https://mermaid.js.org/) diagram syntax. It allows you to define diagrams programmatically in Rust and export them as strings that can be rendered by Mermaid tools.
 
 ## Examples
 
