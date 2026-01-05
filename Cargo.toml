@@ -17,7 +17,6 @@ thiserror = "2.0"
 [features]
 default = ["serde"]
 serde = ["dep:serde"]
-
 [lints.rust]
 missing_docs = "forbid"
 unused_macro_rules = "forbid"
@@ -26,6 +25,16 @@ unreachable_patterns = "forbid"
 unused_import_braces = "forbid"
 unused_must_use = "forbid"
 deprecated = "deny"
+
+[lints.rustdoc]
+broken_intra_doc_links = "forbid"
+bare_urls = "forbid"
+invalid_codeblock_attributes = "forbid"
+invalid_html_tags = "forbid"
+missing_crate_level_docs = "forbid"
+unescaped_backticks = "forbid"
+redundant_explicit_links = "forbid"
+invalid_rust_codeblocks = "forbid"
 
 [lints.clippy]
 unreadable_literal = "allow"
