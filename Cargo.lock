@@ -10,7 +10,7 @@ checksum = "65036b2f761dc2d20b4634890f73bdbad811d5edb677f84fd652ae9256051fcb"
 
 [[package]]
 name = "mermaid-builder"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "colorsys",
  "serde",
