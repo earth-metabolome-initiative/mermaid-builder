@@ -1,7 +1,8 @@
 //! Submodule defining the struct to represent an entity-relationship node
 //! for the entity-relationship diagram in Mermaid syntax.
 
-use std::fmt::Display;
+use alloc::vec::Vec;
+use core::fmt::Display;
 
 pub mod attribute;
 mod builder;
@@ -20,12 +21,15 @@ use crate::{
 /// # Examples
 ///
 /// ```
+/// extern crate alloc;
+/// use alloc::boxed::Box;
+///
 /// use mermaid_builder::{
 ///     diagrams::entity_relationship::ERNodeBuilder,
 ///     traits::{Node, NodeBuilder},
 /// };
 ///
-/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// fn main() -> Result<(), Box<dyn core::error::Error>> {
 ///     let node = ERNodeBuilder::default()
 ///         .label("USER")?
 ///         .id(1)
@@ -74,14 +78,14 @@ impl Node for ERNode {
 }
 
 impl Display for ERNode {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for ERNode {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut core::fmt::Formatter<'_>, tab_count: usize) -> core::fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         write!(f, "{indent}{NODE_LETTER}{}[\"{}\"]", self.id(), self.label())?;
 

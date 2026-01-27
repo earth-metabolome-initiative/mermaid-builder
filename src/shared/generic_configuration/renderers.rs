@@ -1,7 +1,7 @@
 //! Submodule defining the possible renderers which may be used in a flowchart
 //! configuration in Mermaid.
 
-use std::fmt::Display;
+use core::fmt::Display;
 
 #[derive(Default, Copy, Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -16,7 +16,7 @@ pub enum Renderer {
 }
 
 impl Display for Renderer {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             Renderer::Dagre => write!(f, "dagre"),
             Renderer::EclipseLayoutKernel => write!(f, "elk"),
@@ -26,6 +26,8 @@ impl Display for Renderer {
 
 #[cfg(test)]
 mod tests {
+    use alloc::format;
+
     use super::*;
 
     #[test]

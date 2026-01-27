@@ -1,5 +1,8 @@
 //! Submodule defining the possible shapes for nodes in Mermaid diagrams.
-use std::{fmt::Display, str::FromStr};
+use core::{
+    fmt::{self, Display},
+    str::FromStr,
+};
 
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -102,7 +105,7 @@ pub enum FlowchartNodeShape {
 }
 
 impl Display for FlowchartNodeShape {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Rectangle => write!(f, "rect"),
             Self::RoundEdges => write!(f, "rounded"),
@@ -263,6 +266,8 @@ impl FromStr for FlowchartNodeShape {
 
 #[cfg(test)]
 mod tests {
+    use alloc::format;
+
     use super::*;
 
     #[test]

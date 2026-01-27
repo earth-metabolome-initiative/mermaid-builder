@@ -1,6 +1,6 @@
 //! Submodule defining the struct for building a flowchart edge.
 
-use std::rc::Rc;
+use alloc::{rc::Rc, string::ToString, vec::Vec};
 
 use crate::{
     diagrams::flowchart::{
@@ -148,12 +148,12 @@ impl EdgeBuilder for FlowchartEdgeBuilder {
         self.try_into()
     }
 
-    fn source(mut self, node: std::rc::Rc<Self::Node>) -> Result<Self, Self::Error> {
+    fn source(mut self, node: Rc<Self::Node>) -> Result<Self, Self::Error> {
         self.edge_builder = self.edge_builder.source(node)?;
         Ok(self)
     }
 
-    fn destination(mut self, node: std::rc::Rc<Self::Node>) -> Result<Self, Self::Error> {
+    fn destination(mut self, node: Rc<Self::Node>) -> Result<Self, Self::Error> {
         self.edge_builder = self.edge_builder.destination(node)?;
         Ok(self)
     }
@@ -181,7 +181,7 @@ impl EdgeBuilder for FlowchartEdgeBuilder {
 
 #[cfg(test)]
 mod tests {
-    use std::rc::Rc;
+    use alloc::{boxed::Box, rc::Rc};
 
     use super::*;
     use crate::{
@@ -191,7 +191,7 @@ mod tests {
     };
 
     #[test]
-    fn test_flowchart_edge_builder() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_edge_builder() -> Result<(), Box<dyn core::error::Error>> {
         let node1 = Rc::new(FlowchartNodeBuilder::default().label("A")?.id(0).build()?);
         let node2 = Rc::new(FlowchartNodeBuilder::default().label("B")?.id(1).build()?);
         let style_class = Rc::new(

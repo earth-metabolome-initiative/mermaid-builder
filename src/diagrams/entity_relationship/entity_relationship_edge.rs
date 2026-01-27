@@ -1,7 +1,8 @@
 //! Submodule defining an edge struct for entity-relationship diagrams in
 //! Mermaid syntax.
 
-use std::{fmt::Display, rc::Rc};
+use alloc::rc::Rc;
+use core::fmt::Display;
 
 use crate::{
     diagrams::entity_relationship::entity_relationship_node::ERNode,
@@ -159,14 +160,14 @@ impl EREdgeBuilder {
 }
 
 impl Display for EREdge {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for EREdge {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut core::fmt::Formatter<'_>, tab_count: usize) -> core::fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         writeln!(
             f,
@@ -188,6 +189,8 @@ impl crate::traits::TabbedDisplay for EREdge {
 
 #[cfg(test)]
 mod tests {
+    use alloc::{boxed::Box, format};
+
     use super::*;
     use crate::{
         diagrams::entity_relationship::entity_relationship_node::ERNodeBuilder,
@@ -195,7 +198,7 @@ mod tests {
     };
 
     #[test]
-    fn test_er_edge_builder_methods() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_er_edge_builder_methods() -> Result<(), Box<dyn core::error::Error>> {
         let node1 = Rc::new(ERNodeBuilder::default().label("A")?.id(0).build()?);
         let node2 = Rc::new(ERNodeBuilder::default().label("B")?.id(1).build()?);
 
@@ -219,7 +222,7 @@ mod tests {
     }
 
     #[test]
-    fn test_er_edge_display() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_er_edge_display() -> Result<(), Box<dyn core::error::Error>> {
         let node1 = Rc::new(ERNodeBuilder::default().label("A")?.id(0).build()?);
         let node2 = Rc::new(ERNodeBuilder::default().label("B")?.id(1).build()?);
 

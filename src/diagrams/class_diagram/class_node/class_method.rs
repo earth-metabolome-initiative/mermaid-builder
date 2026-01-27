@@ -1,7 +1,8 @@
 //! Submodule defining a class method struct for the class diagram in
 //! Mermaid syntax, including its visibility and parameters signatures.
 
-use std::fmt::Display;
+use alloc::{string::String, vec::Vec};
+use core::fmt::{self, Display};
 
 use crate::diagrams::class_diagram::visibility::Visibility;
 
@@ -16,7 +17,7 @@ pub struct Argument {
 }
 
 impl Display for Argument {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.name, self.arg_type)
     }
 }
@@ -53,7 +54,7 @@ impl ClassMethod {
 }
 
 impl Display for ClassMethod {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.visibility)?;
         write!(f, "{}", self.name)?;
 
@@ -82,6 +83,8 @@ impl Display for ClassMethod {
 
 #[cfg(test)]
 mod tests {
+    use alloc::{string::ToString, vec};
+
     use super::*;
 
     #[test]

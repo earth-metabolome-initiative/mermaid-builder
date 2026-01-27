@@ -1,6 +1,7 @@
 //! Submodule defining the `DiagramBuilder` trait for Mermaid diagrams.
 
-use std::{fmt::Display, rc::Rc};
+use alloc::rc::Rc;
+use core::fmt::Display;
 
 use crate::{
     shared::{StyleClass, StyleClassBuilder},
@@ -32,7 +33,7 @@ where
     /// The configuration builder type for the diagram.
     type ConfigurationBuilder: ConfigurationBuilder<Configuration = Self::Configuration>;
     /// The error type for the diagram builder.
-    type Error: std::error::Error + Display;
+    type Error: core::error::Error + Display;
 
     /// Sets the configuration for the diagram being built.
     ///

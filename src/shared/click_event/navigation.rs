@@ -3,7 +3,8 @@
 //! external resources or internal sections, with or without opening in a new
 //! tab.
 
-use std::fmt::Display;
+use alloc::string::String;
+use core::fmt::Display;
 
 /// Represents a navigation event triggered by a click on a node in a Mermaid
 /// diagram. This can include external links, with options for opening in a new
@@ -61,7 +62,7 @@ impl Navigation {
 }
 
 impl Display for Navigation {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         // We omit the `click {node_name}` part as it is not relevant for the
         // display of the navigation event, and is handled by the parent
         // `ClickEvent` enum.
@@ -84,6 +85,8 @@ impl Display for Navigation {
 
 #[cfg(test)]
 mod tests {
+    use alloc::{format, string::ToString};
+
     use super::*;
 
     #[test]

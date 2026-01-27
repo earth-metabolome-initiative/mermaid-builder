@@ -1,6 +1,6 @@
 //! Submodule defining the trait for representing edges in Mermaid diagrams.
 
-use std::rc::Rc;
+use alloc::rc::Rc;
 
 use crate::{
     shared::{ArrowShape, LineStyle},

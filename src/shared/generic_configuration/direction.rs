@@ -1,7 +1,7 @@
 //! Submodule defining whether a flowchart is meant to extend in a horizontal or
 //! vertical direction.
 
-use std::fmt::Display;
+use core::fmt::Display;
 
 #[derive(Default, Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -32,7 +32,7 @@ impl Direction {
 }
 
 impl Display for Direction {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(
             f,
             "{}",
@@ -48,6 +48,8 @@ impl Display for Direction {
 
 #[cfg(test)]
 mod tests {
+    use alloc::format;
+
     use super::*;
 
     #[test]

@@ -1,7 +1,11 @@
 //! Submodule defining a builder struct for the entity-relationship node in
 //! entity-relationship diagrams.
 
-use std::rc::Rc;
+use alloc::{
+    rc::Rc,
+    string::{String, ToString},
+    vec::Vec,
+};
 
 use crate::{
     diagrams::entity_relationship::entity_relationship_node::{
@@ -19,9 +23,12 @@ use crate::{
 /// # Example
 ///
 /// ```
+/// extern crate alloc;
+/// use alloc::boxed::Box;
+///
 /// use mermaid_builder::prelude::*;
 ///
-/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// fn main() -> Result<(), Box<dyn core::error::Error>> {
 ///     let node = ERNodeBuilder::default().label("CUSTOMER")?.id(0).build()?;
 ///     Ok(())
 /// }
@@ -104,7 +111,7 @@ mod tests {
     };
 
     #[test]
-    fn test_er_node_builder() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_er_node_builder() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let style = Rc::new(
             StyleClassBuilder::default()
                 .name("myStyle")?

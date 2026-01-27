@@ -3,7 +3,7 @@
 
 pub mod entity_relationship_edge;
 pub mod entity_relationship_node;
-use std::fmt::Display;
+use core::fmt::Display;
 
 use entity_relationship_edge::EREdge;
 pub use entity_relationship_edge::EREdgeBuilder;
@@ -27,15 +27,17 @@ pub type ERDiagram = GenericDiagram<ERNode, EREdge, GenericConfiguration>;
 /// Represents a builder for an entity-relationship diagram in Mermaid syntax.
 pub type ERDiagramBuilder = GenericDiagramBuilder<ERNode, EREdge, GenericConfiguration>;
 
+use core::fmt;
+
 impl Display for ERDiagram {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for ERDiagram {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut fmt::Formatter<'_>, tab_count: usize) -> fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         write!(f, "{}", self.configuration())?;
         writeln!(f, "{indent}erDiagram")?;

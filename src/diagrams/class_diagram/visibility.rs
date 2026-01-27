@@ -4,7 +4,7 @@
 //! These include: Public (`+`), Private (`-`), Protected (`#`), and
 //! Package/Internal (`~`).
 
-use std::fmt::Display;
+use core::fmt::{self, Display};
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -22,7 +22,7 @@ pub enum Visibility {
 }
 
 impl Display for Visibility {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Visibility::Public => write!(f, "+"),
             Visibility::Private => write!(f, "-"),
@@ -34,6 +34,8 @@ impl Display for Visibility {
 
 #[cfg(test)]
 mod tests {
+    use alloc::string::ToString;
+
     use super::*;
 
     #[test]

@@ -9,6 +9,8 @@
 
 **Mermaid Builder** is a Rust crate that provides a type-safe, builder-pattern-based API for generating [Mermaid](https://mermaid.js.org/) diagram syntax. It allows you to define diagrams programmatically in Rust and export them as strings that can be rendered by Mermaid tools.
 
+The crate is [`no_std`](https://docs.rust-embedded.org/book/intro/no-std.html) compatible, using the `alloc` crate for dynamic memory allocation.
+
 ## Examples
 
 ### Flowchart

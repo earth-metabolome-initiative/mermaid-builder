@@ -2,7 +2,7 @@
 //! Mermaid.
 
 mod builder;
-use std::fmt::Display;
+use core::fmt::{self, Display};
 
 pub use builder::ClassDiagramConfigurationBuilder;
 
@@ -25,7 +25,7 @@ pub struct ClassDiagramConfiguration {
 }
 
 impl Display for ClassDiagramConfiguration {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "---")?;
         if let Some(title) = &self.title() {
             writeln!(f, "title: {title}")?;

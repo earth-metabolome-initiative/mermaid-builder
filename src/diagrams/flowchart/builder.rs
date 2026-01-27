@@ -45,20 +45,20 @@ impl DiagramBuilder for FlowchartBuilder {
     fn edge(
         &mut self,
         mut edge: Self::EdgeBuilder,
-    ) -> Result<std::rc::Rc<Self::Edge>, Self::Error> {
+    ) -> Result<alloc::rc::Rc<Self::Edge>, Self::Error> {
         edge = edge.id(self.number_of_edges());
         self.generic.edge(edge)
     }
 
-    fn get_node_by_id(&self, id: u64) -> Option<std::rc::Rc<Self::Node>> {
+    fn get_node_by_id(&self, id: u64) -> Option<alloc::rc::Rc<Self::Node>> {
         self.generic.get_node_by_id(id)
     }
 
-    fn node(&mut self, node: Self::NodeBuilder) -> Result<std::rc::Rc<Self::Node>, Self::Error> {
+    fn node(&mut self, node: Self::NodeBuilder) -> Result<alloc::rc::Rc<Self::Node>, Self::Error> {
         self.generic.node(node)
     }
 
-    fn nodes(&self) -> impl Iterator<Item = &std::rc::Rc<Self::Node>> + '_ {
+    fn nodes(&self) -> impl Iterator<Item = &alloc::rc::Rc<Self::Node>> + '_ {
         self.generic.nodes()
     }
 
@@ -73,17 +73,19 @@ impl DiagramBuilder for FlowchartBuilder {
     fn style_class(
         &mut self,
         style_class: StyleClassBuilder,
-    ) -> Result<std::rc::Rc<StyleClass>, Self::Error> {
+    ) -> Result<alloc::rc::Rc<StyleClass>, Self::Error> {
         self.generic.style_class(style_class)
     }
 
-    fn get_style_class_by_name(&self, name: &str) -> Option<std::rc::Rc<StyleClass>> {
+    fn get_style_class_by_name(&self, name: &str) -> Option<alloc::rc::Rc<StyleClass>> {
         self.generic.get_style_class_by_name(name)
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use alloc::{boxed::Box, vec::Vec};
+
     use super::*;
     use crate::{
         prelude::{FlowchartConfigurationBuilder, FlowchartEdgeBuilder, FlowchartNodeBuilder},
@@ -94,7 +96,7 @@ mod tests {
     };
 
     #[test]
-    fn test_flowchart_builder() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_builder() -> Result<(), Box<dyn core::error::Error>> {
         let mut builder = FlowchartBuilder::default();
 
         // Test configuration

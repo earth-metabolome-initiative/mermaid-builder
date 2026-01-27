@@ -1,7 +1,8 @@
 //! Submodule defining a generic diagram struct which can be used as a base
 //! for various types of diagrams in Mermaid syntax.
 
-use std::{fmt::Display, rc::Rc};
+use alloc::{borrow::ToOwned, rc::Rc, vec::Vec};
+use core::fmt::Display;
 
 use crate::{
     shared::{StyleClass, StyleClassError},
@@ -198,7 +199,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use std::rc::Rc;
+    use alloc::rc::Rc;
 
     use super::*;
     use crate::{
@@ -211,7 +212,7 @@ mod tests {
     };
 
     #[test]
-    fn test_generic_diagram_builder() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_generic_diagram_builder() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let mut builder =
             GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
             );
@@ -249,7 +250,7 @@ mod tests {
     }
 
     #[test]
-    fn test_generic_diagram_methods() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_generic_diagram_methods() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let mut builder =
             GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
             );
@@ -276,7 +277,7 @@ mod tests {
     }
 
     #[test]
-    fn test_style_class_management() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_style_class_management() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let mut builder =
             GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
             );
@@ -309,7 +310,7 @@ mod tests {
     }
 
     #[test]
-    fn test_node_with_unknown_class() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_node_with_unknown_class() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let mut builder =
             GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
             );
@@ -328,7 +329,7 @@ mod tests {
     }
 
     #[test]
-    fn test_edge_with_unknown_nodes() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_edge_with_unknown_nodes() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let mut builder =
             GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
             );
@@ -344,7 +345,8 @@ mod tests {
     }
 
     #[test]
-    fn test_edge_destination_node_not_found() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_edge_destination_node_not_found()
+    -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let mut builder =
             GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
             );
@@ -362,7 +364,7 @@ mod tests {
     }
 
     #[test]
-    fn test_node_auto_id() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_node_auto_id() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let mut builder =
             GenericDiagramBuilder::<FlowchartNode, FlowchartEdge, FlowchartConfiguration>::default(
             );

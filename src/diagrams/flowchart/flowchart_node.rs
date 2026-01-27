@@ -3,7 +3,8 @@
 
 mod builder;
 mod shape;
-use std::{fmt::Display, rc::Rc};
+use alloc::{rc::Rc, vec::Vec};
+use core::fmt::{self, Display};
 
 pub use builder::FlowchartNodeBuilder;
 pub use shape::FlowchartNodeShape;
@@ -86,14 +87,14 @@ impl Node for FlowchartNode {
 }
 
 impl Display for FlowchartNode {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for FlowchartNode {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut fmt::Formatter<'_>, tab_count: usize) -> fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         if self.subnodes.is_empty() {
             writeln!(
@@ -138,6 +139,8 @@ impl crate::traits::TabbedDisplay for FlowchartNode {
 
 #[cfg(test)]
 mod tests {
+    use alloc::{boxed::Box, format};
+
     use super::*;
     use crate::{
         shared::{
@@ -148,7 +151,7 @@ mod tests {
     };
 
     #[test]
-    fn test_flowchart_node_display_simple() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_node_display_simple() -> Result<(), Box<dyn core::error::Error>> {
         let node = FlowchartNodeBuilder::default()
             .label("My Node")?
             .id(1)
@@ -161,7 +164,7 @@ mod tests {
     }
 
     #[test]
-    fn test_flowchart_node_display_full() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_node_display_full() -> Result<(), Box<dyn core::error::Error>> {
         let style_class = Rc::new(
             StyleClassBuilder::default()
                 .name("myClass")?
@@ -189,7 +192,7 @@ mod tests {
     }
 
     #[test]
-    fn test_flowchart_node_subgraph() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_node_subgraph() -> Result<(), Box<dyn core::error::Error>> {
         let subnode = Rc::new(FlowchartNodeBuilder::default().label("Sub Node")?.id(2).build()?);
 
         let node = FlowchartNodeBuilder::default()

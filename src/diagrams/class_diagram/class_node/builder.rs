@@ -1,6 +1,10 @@
 //! Submodule defining a builder struct for the class node in class diagrams.
 
-use std::rc::Rc;
+use alloc::{
+    rc::Rc,
+    string::{String, ToString},
+    vec::Vec,
+};
 
 use crate::{
     diagrams::class_diagram::class_node::{ClassAttribute, ClassMethod, ClassNode},
@@ -14,9 +18,12 @@ use crate::{
 /// # Example
 ///
 /// ```
+/// extern crate alloc;
+/// use alloc::boxed::Box;
+///
 /// use mermaid_builder::prelude::*;
 ///
-/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// fn main() -> Result<(), Box<dyn core::error::Error>> {
 ///     let node =
 ///         ClassNodeBuilder::default().label("MyClass")?.annotation("interface").id(0).build()?;
 ///     Ok(())
@@ -128,6 +135,8 @@ impl NodeBuilder for ClassNodeBuilder {
 
 #[cfg(test)]
 mod tests {
+    use alloc::vec;
+
     use super::*;
     use crate::{
         diagrams::class_diagram::class_node::{ClassAttribute, ClassMethod},
@@ -139,7 +148,7 @@ mod tests {
     };
 
     #[test]
-    fn test_class_node_builder() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_class_node_builder() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let style_class = Rc::new(
             StyleClassBuilder::default()
                 .name("test")?

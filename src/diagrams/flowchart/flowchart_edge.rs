@@ -1,7 +1,8 @@
 //! Submodule defining an edge which may be used in a flowchart diagram
 //! in Mermaid syntax.
 
-use std::{fmt::Display, rc::Rc};
+use alloc::{format, rc::Rc, string::String, vec::Vec};
+use core::fmt::{self, Display};
 
 use crate::{
     diagrams::flowchart::{curve_styles::CurveStyle, flowchart_node::FlowchartNode},
@@ -87,14 +88,14 @@ impl Edge for FlowchartEdge {
 }
 
 impl Display for FlowchartEdge {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for FlowchartEdge {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut fmt::Formatter<'_>, tab_count: usize) -> fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         let segment = match self.line_style() {
             LineStyle::Solid => "-".repeat(2 + self.length as usize),
@@ -146,6 +147,8 @@ impl crate::traits::TabbedDisplay for FlowchartEdge {
 
 #[cfg(test)]
 mod tests {
+    use alloc::boxed::Box;
+
     use super::*;
     use crate::{
         diagrams::flowchart::flowchart_node::FlowchartNodeBuilder,
@@ -154,7 +157,7 @@ mod tests {
     };
 
     #[test]
-    fn test_flowchart_edge_display() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_edge_display() -> Result<(), Box<dyn core::error::Error>> {
         let node1 = Rc::new(FlowchartNodeBuilder::default().label("A")?.id(0).build()?);
         let node2 = Rc::new(FlowchartNodeBuilder::default().label("B")?.id(1).build()?);
         let style_class = Rc::new(
@@ -188,7 +191,7 @@ mod tests {
     }
 
     #[test]
-    fn test_flowchart_edge_traits() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_edge_traits() -> Result<(), Box<dyn core::error::Error>> {
         let node1 = Rc::new(FlowchartNodeBuilder::default().label("A")?.id(0).build()?);
         let node2 = Rc::new(FlowchartNodeBuilder::default().label("B")?.id(1).build()?);
         let style_class = Rc::new(

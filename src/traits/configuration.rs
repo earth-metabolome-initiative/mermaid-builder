@@ -1,6 +1,6 @@
 //! Submodule defining the `Configuration` trait for Mermaid diagrams.
 
-use std::fmt::Display;
+use core::fmt::Display;
 
 use crate::{
     shared::generic_configuration::{Direction, Look, Renderer, Theme},

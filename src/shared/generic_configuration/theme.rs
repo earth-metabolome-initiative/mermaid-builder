@@ -1,6 +1,6 @@
 //! The themes enumeration to use for rendering a Mermaid diagram.
 
-use std::fmt::Display;
+use core::fmt::Display;
 
 #[derive(Default, Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -30,7 +30,7 @@ pub enum Theme {
 }
 
 impl Display for Theme {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(
             f,
             "{}",
@@ -52,6 +52,8 @@ impl Display for Theme {
 
 #[cfg(test)]
 mod tests {
+    use alloc::format;
+
     use super::*;
 
     #[test]

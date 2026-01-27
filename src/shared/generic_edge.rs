@@ -1,7 +1,11 @@
 //! Submodule providing a generic node struct which may be reused across
 //! different diagrams.
 
-use std::{iter::empty, rc::Rc};
+use alloc::{
+    rc::Rc,
+    string::{String, ToString},
+};
+use core::iter::empty;
 
 use crate::{
     errors::EdgeError,

@@ -4,7 +4,7 @@ pub mod class_edge;
 pub mod class_node;
 mod configuration;
 pub mod visibility;
-use std::fmt::Display;
+use core::fmt::Display;
 
 use class_edge::ClassEdge;
 pub use class_edge::ClassEdgeBuilder;
@@ -24,14 +24,14 @@ pub type ClassDiagramBuilder =
     GenericDiagramBuilder<ClassNode, ClassEdge, ClassDiagramConfiguration>;
 
 impl Display for ClassDiagram {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for ClassDiagram {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut core::fmt::Formatter<'_>, tab_count: usize) -> core::fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         write!(f, "{}", self.configuration())?; // Configuration might need tabbed display too? Usually it's frontmatter or directives.
         writeln!(f, "{indent}classDiagram")?;

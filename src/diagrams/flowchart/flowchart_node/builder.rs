@@ -1,7 +1,12 @@
 //! Submodule defining a builder struct to construct flowchart nodes in the
 //! flowchart Mermaid diagrams.
 
-use std::rc::Rc;
+use alloc::{
+    borrow::ToOwned,
+    rc::Rc,
+    string::{String, ToString},
+    vec::Vec,
+};
 
 use crate::{
     diagrams::flowchart::flowchart_node::{ClickEvent, FlowchartNode, shape::FlowchartNodeShape},
@@ -175,6 +180,8 @@ impl NodeBuilder for FlowchartNodeBuilder {
 
 #[cfg(test)]
 mod tests {
+    use alloc::boxed::Box;
+
     use super::*;
     use crate::{
         shared::{
@@ -185,7 +192,7 @@ mod tests {
     };
 
     #[test]
-    fn test_flowchart_node_builder() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_node_builder() -> Result<(), Box<dyn core::error::Error>> {
         let style_class = Rc::new(
             StyleClassBuilder::default()
                 .name("test")?
@@ -217,7 +224,7 @@ mod tests {
     }
 
     #[test]
-    fn test_flowchart_node_builder_subgraph_methods() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_node_builder_subgraph_methods() -> Result<(), Box<dyn core::error::Error>> {
         let mut builder = FlowchartNodeBuilder::default();
         assert!(!builder.is_subgraph());
 

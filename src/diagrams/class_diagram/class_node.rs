@@ -4,7 +4,9 @@
 mod builder;
 mod class_attribute;
 mod class_method;
-use std::fmt::Display;
+
+use alloc::{string::String, vec::Vec};
+use core::fmt::{self, Display};
 
 pub use builder::ClassNodeBuilder;
 pub use class_attribute::ClassAttribute;
@@ -22,12 +24,15 @@ use crate::{
 /// # Examples
 ///
 /// ```
+/// extern crate alloc;
+/// use alloc::boxed::Box;
+///
 /// use mermaid_builder::{
 ///     diagrams::class_diagram::ClassNodeBuilder,
 ///     traits::{Node, NodeBuilder},
 /// };
 ///
-/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// fn main() -> Result<(), Box<dyn core::error::Error>> {
 ///     let node =
 ///         ClassNodeBuilder::default().label("MyClass")?.id(1).annotation("interface").build()?;
 ///
@@ -80,14 +85,14 @@ impl Node for ClassNode {
 }
 
 impl Display for ClassNode {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for ClassNode {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut fmt::Formatter<'_>, tab_count: usize) -> fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         writeln!(f, "{indent}class {NODE_LETTER}{}[\"{}\"] {{", self.id(), self.label())?;
         if let Some(annotation) = &self.annotation {

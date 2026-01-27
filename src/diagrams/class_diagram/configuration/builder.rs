@@ -1,6 +1,8 @@
 //! Submodule providing a builder struct for the configuration of class diagrams
 //! in Mermaid syntax.
 
+use alloc::string::ToString;
+
 use crate::{
     diagrams::class_diagram::configuration::ClassDiagramConfiguration, errors::ConfigError,
     shared::generic_configuration::GenericConfigurationBuilder, traits::ConfigurationBuilder,
@@ -79,7 +81,8 @@ mod tests {
     };
 
     #[test]
-    fn test_class_diagram_configuration_builder() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_class_diagram_configuration_builder()
+    -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let config = ClassDiagramConfigurationBuilder::default()
             .title("My Class Diagram")?
             .direction(Direction::LeftToRight)

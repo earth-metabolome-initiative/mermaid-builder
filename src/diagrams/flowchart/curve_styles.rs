@@ -32,8 +32,8 @@ pub enum CurveStyle {
     StepBefore,
 }
 
-impl std::fmt::Display for CurveStyle {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Display for CurveStyle {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             CurveStyle::Basis => write!(f, "basis"),
             CurveStyle::BumpX => write!(f, "bumpX"),
@@ -53,6 +53,8 @@ impl std::fmt::Display for CurveStyle {
 
 #[cfg(test)]
 mod tests {
+    use alloc::string::ToString;
+
     use super::*;
 
     #[test]

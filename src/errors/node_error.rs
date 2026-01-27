@@ -1,6 +1,8 @@
 //! Submodule providing an enumeration of possible errors that can occur in the
 //! nodes of diagrams in Mermaid syntax.
 
+use alloc::string::String;
+
 use thiserror::Error;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Error)]

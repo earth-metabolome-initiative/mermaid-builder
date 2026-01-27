@@ -1,7 +1,8 @@
 //! Submodule defining a class attribute struct for the class diagram in
 //! Mermaid syntax, including its visibility and type.
 
-use std::fmt::Display;
+use alloc::string::String;
+use core::fmt::{self, Display};
 
 use crate::diagrams::class_diagram::visibility::Visibility;
 
@@ -29,13 +30,15 @@ impl ClassAttribute {
 }
 
 impl Display for ClassAttribute {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{} {}: {}", self.visibility, self.name, self.attribute_type)
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use alloc::string::ToString;
+
     use super::*;
 
     #[test]

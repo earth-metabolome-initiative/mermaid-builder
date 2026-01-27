@@ -2,7 +2,7 @@
 //! style class definitions in Mermaid diagrams, including pixel and
 //! point units.
 
-use std::fmt::Display;
+use core::fmt::Display;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -15,7 +15,7 @@ pub enum Unit {
 }
 
 impl Display for Unit {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             Unit::Pixel(value) => write!(f, "{value}px"),
             Unit::Point(value) => write!(f, "{value}pt"),
@@ -25,6 +25,8 @@ impl Display for Unit {
 
 #[cfg(test)]
 mod tests {
+    use alloc::format;
+
     use super::*;
 
     #[test]

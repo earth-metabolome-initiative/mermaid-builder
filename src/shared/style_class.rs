@@ -7,7 +7,8 @@ mod font_style;
 mod font_weight;
 mod style_properties;
 mod units;
-use std::fmt::Display;
+use alloc::{string::String, vec::Vec};
+use core::fmt::Display;
 
 pub use builder::StyleClassBuilder;
 pub use color::Color;
@@ -42,14 +43,14 @@ impl StyleClass {
 }
 
 impl Display for StyleClass {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for StyleClass {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut core::fmt::Formatter<'_>, tab_count: usize) -> core::fmt::Result {
         write!(f, "{:indent$}classDef {} ", "", self.name, indent = tab_count * 2)?;
         for (property_number, property) in self.properties.iter().enumerate() {
             if property_number > 0 {
@@ -63,6 +64,8 @@ impl crate::traits::TabbedDisplay for StyleClass {
 
 #[cfg(test)]
 mod tests {
+    use alloc::{format, string::ToString, vec};
+
     use super::*;
     use crate::shared::style_class::color::Color;
 

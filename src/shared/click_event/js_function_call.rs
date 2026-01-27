@@ -2,7 +2,8 @@
 //! JavaScript functions, including the typing of the function signature
 //! and the function call itself.
 
-use std::fmt::Display;
+use alloc::{format, string::String, vec::Vec};
+use core::fmt::Display;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -16,7 +17,7 @@ pub struct JsFunctionCall {
 }
 
 impl Display for JsFunctionCall {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         let args_str = if self.args.is_empty() {
             String::new()
         } else {
@@ -28,6 +29,8 @@ impl Display for JsFunctionCall {
 
 #[cfg(test)]
 mod tests {
+    use alloc::{format, string::ToString, vec};
+
     use super::*;
 
     #[test]

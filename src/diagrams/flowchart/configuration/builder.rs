@@ -1,6 +1,8 @@
 //! Submodule providing a builder struct for the configuration of flowchart
 //! diagrams in Mermaid syntax.
 
+use alloc::string::ToString;
+
 use crate::{
     diagrams::flowchart::{configuration::FlowchartConfiguration, curve_styles::CurveStyle},
     errors::ConfigError,
@@ -98,6 +100,8 @@ impl ConfigurationBuilder for FlowchartConfigurationBuilder {
 
 #[cfg(test)]
 mod tests {
+    use alloc::boxed::Box;
+
     use super::*;
     use crate::{
         shared::generic_configuration::{Direction, Look, Renderer, Theme},
@@ -105,7 +109,7 @@ mod tests {
     };
 
     #[test]
-    fn test_flowchart_configuration_builder() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_configuration_builder() -> Result<(), Box<dyn core::error::Error>> {
         let config = FlowchartConfigurationBuilder::default()
             .title("My Flowchart")?
             .direction(Direction::TopToBottom)

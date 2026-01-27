@@ -1,7 +1,12 @@
 //! Submodule providing a generic node struct which may be reused across
 //! different diagrams.
 
-use std::rc::Rc;
+use alloc::{
+    borrow::ToOwned,
+    rc::Rc,
+    string::{String, ToString},
+    vec::Vec,
+};
 
 use crate::{
     errors::NodeError,

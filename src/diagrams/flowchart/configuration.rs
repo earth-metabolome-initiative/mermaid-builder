@@ -3,7 +3,7 @@
 
 mod builder;
 
-use std::fmt::Display;
+use core::fmt::Display;
 
 pub use builder::FlowchartConfigurationBuilder;
 
@@ -31,7 +31,7 @@ pub struct FlowchartConfiguration {
 }
 
 impl Display for FlowchartConfiguration {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         if self.generic.title().is_none() && self.renderer() == Renderer::default() {
             return Ok(());
         }
@@ -76,6 +76,8 @@ impl Configuration for FlowchartConfiguration {
 
 #[cfg(test)]
 mod tests {
+    use alloc::{boxed::Box, format};
+
     use super::*;
     use crate::traits::ConfigurationBuilder;
 
@@ -86,7 +88,7 @@ mod tests {
     }
 
     #[test]
-    fn test_flowchart_configuration_display_full() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_configuration_display_full() -> Result<(), Box<dyn core::error::Error>> {
         let config = FlowchartConfigurationBuilder::default()
             .title("My Flowchart")?
             .renderer(Renderer::EclipseLayoutKernel)
@@ -103,7 +105,7 @@ mod tests {
     }
 
     #[test]
-    fn test_flowchart_configuration_traits() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_flowchart_configuration_traits() -> Result<(), Box<dyn core::error::Error>> {
         let config = FlowchartConfigurationBuilder::default()
             .title("My Flowchart")?
             .direction(Direction::TopToBottom)

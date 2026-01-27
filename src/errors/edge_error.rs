@@ -1,6 +1,8 @@
 //! Submodule providing an enumeration of possible errors that can occur in the
 //! edges of diagrams in Mermaid syntax.
 
+use alloc::string::String;
+
 use thiserror::Error;
 
 use crate::shared::ArrowShape;

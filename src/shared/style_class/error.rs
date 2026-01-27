@@ -1,6 +1,8 @@
 //! Submodule defining the error enumeration which describes errors
 //! which may happen while creating style classes in Mermaid diagrams.
 
+use alloc::string::String;
+
 use thiserror::Error;
 
 use crate::shared::{StyleClass, style_class::StyleProperty};

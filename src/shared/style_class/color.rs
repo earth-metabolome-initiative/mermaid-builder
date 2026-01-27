@@ -1,5 +1,7 @@
 //! Submodule defining the `Color` struct for Mermaid diagrams.
 
+use alloc::{format, string::String, vec::Vec};
+
 use colorsys::{Hsl, Rgb};
 
 /// Represents a color in the Mermaid diagram style class.

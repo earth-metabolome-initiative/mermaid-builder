@@ -1,7 +1,7 @@
 //! Enumeration of style properties which may be applied to nodes in a Mermaid
 //! diagram.
 
-use std::fmt::Display;
+use core::fmt::Display;
 
 use crate::shared::style_class::{
     color::Color, font_style::FontStyle, font_weight::FontWeight, units::Unit,
@@ -60,7 +60,7 @@ impl StyleProperty {
 }
 
 impl Display for StyleProperty {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             StyleProperty::Fill(color) => write!(f, "fill: {}", color.to_hex()),
             StyleProperty::Stroke(color) => write!(f, "stroke: {}", color.to_hex()),
@@ -81,6 +81,8 @@ impl Display for StyleProperty {
 
 #[cfg(test)]
 mod tests {
+    use alloc::format;
+
     use super::*;
 
     #[test]

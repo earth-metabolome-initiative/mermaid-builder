@@ -1,7 +1,7 @@
 //! Submodule defining the trait for structs constructing edges in Mermaid
 //! diagrams.
 
-use std::rc::Rc;
+use alloc::{rc::Rc, string::ToString};
 
 use crate::shared::{ArrowShape, LineStyle};
 

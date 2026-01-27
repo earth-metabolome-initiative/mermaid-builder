@@ -11,7 +11,7 @@
 //! - `0..n` zero to n (where n>1)
 //! - `1..n` one to n (where n>1)
 
-use std::fmt::Display;
+use core::fmt::{self, Display};
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -35,7 +35,7 @@ pub enum Multiplicity {
 }
 
 impl Display for Multiplicity {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Multiplicity::One => write!(f, "1"),
             Multiplicity::ZeroOrOne => write!(f, "0..1"),
@@ -50,6 +50,8 @@ impl Display for Multiplicity {
 
 #[cfg(test)]
 mod tests {
+    use alloc::string::ToString;
+
     use super::*;
 
     #[test]

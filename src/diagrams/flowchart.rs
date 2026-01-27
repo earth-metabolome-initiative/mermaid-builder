@@ -5,7 +5,8 @@ mod configuration;
 mod curve_styles;
 mod flowchart_edge;
 mod flowchart_node;
-use std::fmt::Display;
+use alloc::{rc::Rc, vec::Vec};
+use core::fmt::{self, Display};
 
 pub use builder::FlowchartBuilder;
 pub use configuration::{FlowchartConfiguration, FlowchartConfigurationBuilder};
@@ -25,9 +26,12 @@ use crate::{
 /// # Example
 ///
 /// ```
+/// extern crate alloc;
+/// use alloc::boxed::Box;
+///
 /// use mermaid_builder::prelude::*;
 ///
-/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// fn main() -> Result<(), Box<dyn core::error::Error>> {
 ///     let mut builder = FlowchartBuilder::default();
 ///     let node = builder.node(FlowchartNodeBuilder::default().label("Node")?)?;
 ///     let flowchart = Flowchart::from(builder);
@@ -52,14 +56,11 @@ impl Diagram for Flowchart {
         self.generic.edges()
     }
 
-    fn get_node_by_id(&self, id: u64) -> Option<std::rc::Rc<Self::Node>> {
+    fn get_node_by_id(&self, id: u64) -> Option<Rc<Self::Node>> {
         self.generic.get_node_by_id(id)
     }
 
-    fn get_style_class_by_name(
-        &self,
-        name: &str,
-    ) -> Option<std::rc::Rc<crate::shared::StyleClass>> {
+    fn get_style_class_by_name(&self, name: &str) -> Option<Rc<crate::shared::StyleClass>> {
         self.generic.get_style_class_by_name(name)
     }
 
@@ -73,14 +74,14 @@ impl Diagram for Flowchart {
 }
 
 impl Display for Flowchart {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for Flowchart {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut fmt::Formatter<'_>, tab_count: usize) -> fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         write!(f, "{}", self.configuration())?;
         writeln!(f, "{indent}flowchart {}", self.configuration().direction())?;

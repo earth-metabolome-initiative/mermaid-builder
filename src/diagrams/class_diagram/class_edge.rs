@@ -1,7 +1,8 @@
 //! Submodule defining an edge which may be used in a flowchart diagram
 //! in Mermaid syntax.
 
-use std::{fmt::Display, rc::Rc};
+use alloc::{format, rc::Rc, string::String};
+use core::{fmt, fmt::Display, iter};
 
 use crate::{
     diagrams::class_diagram::{class_edge::multiplicity::Multiplicity, class_node::ClassNode},
@@ -21,14 +22,15 @@ pub use builder::ClassEdgeBuilder;
 /// # Examples
 ///
 /// ```
-/// use std::rc::Rc;
+/// extern crate alloc;
+/// use alloc::{boxed::Box, rc::Rc};
 ///
 /// use mermaid_builder::{
 ///     diagrams::class_diagram::{ClassEdgeBuilder, ClassNodeBuilder},
 ///     traits::{EdgeBuilder, NodeBuilder},
 /// };
 ///
-/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// fn main() -> Result<(), Box<dyn core::error::Error>> {
 ///     let node1 = Rc::new(ClassNodeBuilder::default().label("A")?.id(1).build()?);
 ///     let node2 = Rc::new(ClassNodeBuilder::default().label("B")?.id(2).build()?);
 ///
@@ -66,7 +68,7 @@ impl Edge for ClassEdge {
     }
 
     fn classes(&self) -> impl Iterator<Item = &crate::shared::StyleClass> {
-        std::iter::empty()
+        iter::empty()
     }
 
     fn left_arrow_shape(&self) -> Option<ArrowShape> {
@@ -79,14 +81,14 @@ impl Edge for ClassEdge {
 }
 
 impl Display for ClassEdge {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use crate::traits::TabbedDisplay;
         self.fmt_tabbed(f, 0)
     }
 }
 
 impl crate::traits::TabbedDisplay for ClassEdge {
-    fn fmt_tabbed(&self, f: &mut std::fmt::Formatter<'_>, tab_count: usize) -> std::fmt::Result {
+    fn fmt_tabbed(&self, f: &mut fmt::Formatter<'_>, tab_count: usize) -> fmt::Result {
         let indent = " ".repeat(tab_count * 2);
         writeln!(
             f,

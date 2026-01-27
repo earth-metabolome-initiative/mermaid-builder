@@ -2,7 +2,7 @@
 //! diagram.
 
 mod navigation;
-use std::fmt::Display;
+use core::fmt::Display;
 
 pub use navigation::Navigation;
 mod js_function_call;
@@ -21,7 +21,7 @@ pub enum ClickEvent {
 }
 
 impl Display for ClickEvent {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             ClickEvent::Navigation(nav) => write!(f, "{nav}",),
             ClickEvent::JsFunctionCall(js_call) => write!(f, "{js_call}",),

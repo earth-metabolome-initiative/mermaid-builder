@@ -1,5 +1,7 @@
 //! Submodule providing a builder struct for style classes in Mermaid diagrams.
 
+use alloc::{string::String, vec::Vec};
+
 use crate::shared::{
     StyleClass,
     style_class::{StyleClassError, StyleProperty},
@@ -14,7 +16,7 @@ use crate::shared::{
 /// ```
 /// use mermaid_builder::prelude::*;
 ///
-/// fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// fn main() -> Result<(), Box<dyn core::error::Error>> {
 ///     let style_class = StyleClassBuilder::default()
 ///         .name("myClass")?
 ///         .property(StyleProperty::Fill(Color::from((255, 0, 0))))?
@@ -116,7 +118,7 @@ mod tests {
     }
 
     #[test]
-    fn test_style_class_builder_errors() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_style_class_builder_errors() -> Result<(), alloc::boxed::Box<dyn core::error::Error>> {
         let builder = StyleClassBuilder::default();
         assert!(matches!(builder.name(""), Err(StyleClassError::EmptyName)));
 

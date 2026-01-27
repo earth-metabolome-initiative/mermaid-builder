@@ -2,7 +2,8 @@
 //! level of a Mermaid diagram.
 
 mod renderers;
-use std::fmt::Display;
+use alloc::string::{String, ToString};
+use core::fmt::Display;
 
 pub use renderers::Renderer;
 mod direction;
@@ -58,7 +59,7 @@ impl Configuration for GenericConfiguration {
 }
 
 impl Display for GenericConfiguration {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         writeln!(f, "---")?;
         writeln!(f, "config:")?;
         writeln!(f, "  layout: {}", self.renderer)?;
@@ -149,6 +150,8 @@ impl GenericConfigurationBuilder {
 
 #[cfg(test)]
 mod tests {
+    use alloc::format;
+
     use super::*;
 
     #[test]

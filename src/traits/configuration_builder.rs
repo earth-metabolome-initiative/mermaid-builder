@@ -1,5 +1,7 @@
 //! Submodule defining the `ConfigurationBuilder` trait for Mermaid diagrams.
 
+use alloc::string::ToString;
+
 use crate::shared::generic_configuration::{Direction, Renderer};
 
 /// Trait defining a configuration builder for Mermaid diagrams.

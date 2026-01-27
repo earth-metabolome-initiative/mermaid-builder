@@ -1,6 +1,7 @@
 //! Submodule defining the `Diagram` trait for Mermaid diagrams.
 
-use std::{fmt::Display, rc::Rc};
+use alloc::rc::Rc;
+use core::fmt::Display;
 
 use crate::{
     shared::StyleClass,

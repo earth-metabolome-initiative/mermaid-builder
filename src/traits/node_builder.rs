@@ -1,6 +1,9 @@
 //! Submodule defining the traits for building a node in Mermaid diagrams.
 
-use std::rc::Rc;
+use alloc::{
+    rc::Rc,
+    string::{String, ToString},
+};
 
 use crate::shared::{StyleClass, StyleClassError, StyleProperty};
 
