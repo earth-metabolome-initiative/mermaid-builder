@@ -12,7 +12,7 @@ pub use errors::{ConfigError, EdgeError, Error, NodeError, StyleClassError};
 /// Submodule providing common traits and types for Mermaid diagrams.
 pub mod prelude {
     pub use crate::{
-        diagrams::{class_diagram::*, entity_relationship::*, flowchart::*},
+        diagrams::{class_diagram::*, entity_relationship::*, flowchart::*, state_diagram::*},
         shared::{
             ArrowShape, Color, Direction, FontWeight, LineStyle, Renderer, StyleClass,
             StyleClassBuilder, StyleProperty, Unit,
