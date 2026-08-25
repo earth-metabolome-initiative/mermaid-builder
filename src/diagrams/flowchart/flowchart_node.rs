@@ -106,7 +106,7 @@ impl crate::traits::TabbedDisplay for FlowchartNode {
             )?;
 
             if let Some(click_event) = &self.click_event {
-                writeln!(f, "{indent}click {NODE_LETTER}{} {click_event}", self.id(),)?;
+                writeln!(f, "{indent}click {NODE_LETTER}{} {click_event}", self.id())?;
             }
 
             for class in self.classes() {

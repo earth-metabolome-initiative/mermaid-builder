@@ -43,5 +43,9 @@ mod tests {
             args: vec!["arg1".to_string(), "arg2".to_string()],
         };
         assert_eq!(format!("{call}"), "myFunc(arg1, arg2)");
+        assert_eq!(
+            format!("{}", crate::shared::ClickEvent::JsFunctionCall(call)),
+            "myFunc(arg1, arg2)"
+        );
     }
 }

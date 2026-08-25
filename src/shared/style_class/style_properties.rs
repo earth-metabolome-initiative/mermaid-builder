@@ -72,7 +72,7 @@ impl Display for StyleProperty {
             StyleProperty::StrokeDasharray(length, gap) => {
                 write!(f, "stroke-dasharray: {length}, {gap}")
             }
-            StyleProperty::StrokeDashoffset(offset) => write!(f, "stroke-dashoffset: {offset}",),
+            StyleProperty::StrokeDashoffset(offset) => write!(f, "stroke-dashoffset: {offset}"),
             StyleProperty::Opacity(value) => write!(f, "opacity: {:.2}", f32::from(*value) / 100.0),
             StyleProperty::BorderRadius(radius) => write!(f, "rx: {radius}, ry: {radius}"),
         }
