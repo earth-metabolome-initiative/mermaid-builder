@@ -23,8 +23,8 @@ pub enum ClickEvent {
 impl Display for ClickEvent {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
-            ClickEvent::Navigation(nav) => write!(f, "{nav}",),
-            ClickEvent::JsFunctionCall(js_call) => write!(f, "{js_call}",),
+            ClickEvent::Navigation(nav) => write!(f, "{nav}"),
+            ClickEvent::JsFunctionCall(js_call) => write!(f, "{js_call}"),
         }
     }
 }
