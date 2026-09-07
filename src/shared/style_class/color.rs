@@ -160,8 +160,8 @@ mod tests {
         let darkened = color.darken(10);
         let lightened = color.lighten(10);
 
-        // Converting to HSL to check lightness would be ideal, but checking inequality
-        // is a start
+        // Converting to HSL to check lightness would be ideal, but checking
+        // inequality is a start
         assert_ne!(color, darkened);
         assert_ne!(color, lightened);
     }

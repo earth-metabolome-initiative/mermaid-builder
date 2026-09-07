@@ -135,8 +135,8 @@ mod tests {
 
         // Test build (into Flowchart)
         let _flowchart: Flowchart = builder.into();
-        // We can't easily inspect the flowchart internals here without more accessors,
-        // but the conversion should succeed.
+        // We can't easily inspect the flowchart internals here without more
+        // accessors, but the conversion should succeed.
 
         Ok(())
     }
