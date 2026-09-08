@@ -52,7 +52,8 @@ impl Display for StateNode {
 
 impl TabbedDisplay for StateNode {
     fn fmt_tabbed(&self, f: &mut fmt::Formatter<'_>, tab_count: usize) -> fmt::Result {
-        self.fmt_scoped(f, tab_count, "S")
+        self.fmt_scoped(f, tab_count, "S")?;
+        self.fmt_styles(f, tab_count, "S")
     }
 }
 
@@ -92,6 +93,20 @@ impl StateNode {
             writeln!(f, "{indent}state {id} {{")?;
             inner.fmt_body(f, depth + 1, &format!("{id}_"))?;
             writeln!(f, "{indent}}}")?;
+        }
+        Ok(())
+    }
+
+    pub(super) fn fmt_styles(
+        &self,
+        f: &mut fmt::Formatter<'_>,
+        depth: usize,
+        scope: &str,
+    ) -> fmt::Result {
+        let indent = "    ".repeat(depth);
+        let id = format!("{scope}{}", self.id());
+        if let Some(inner) = &self.inner_diagram {
+            inner.fmt_styles(f, depth, &format!("{id}_"))?;
         }
         for class in self.classes() {
             writeln!(f, "{indent}class {id} {scope}class_{}", class.name())?;

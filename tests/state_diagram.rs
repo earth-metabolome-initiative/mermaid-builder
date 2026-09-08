@@ -118,8 +118,8 @@ fn styles_and_classes_are_emitted() -> Result {
     assert_eq!(
         StateDiagram::from(builder).to_string(),
         concat!(
-            "stateDiagram-v2\n    direction LR\n    classDef Sclass_active fill: #ff0000\n",
-            "    state \"Styled\" as S0\n    class S0 Sclass_active\n    style S0 stroke-width: 2px\n"
+            "stateDiagram-v2\n    direction LR\n    state \"Styled\" as S0\n",
+            "    classDef Sclass_active fill: #ff0000\n    class S0 Sclass_active\n    style S0 stroke-width: 2px\n"
         )
     );
     Ok(())
@@ -270,7 +270,36 @@ fn class_lookup_and_multiple_properties() -> Result {
     assert_eq!(diagram.get_style_class_by_name("active"), Some(class));
     assert_eq!(
         diagram.to_string(),
-        "stateDiagram-v2\n    direction LR\n    classDef Sclass_active fill: #000000,stroke-width: 2px\n    state \"Styled\" as S0\n    class S0 Sclass_active\n"
+        "stateDiagram-v2\n    direction LR\n    state \"Styled\" as S0\n    classDef Sclass_active fill: #000000,stroke-width: 2px\n    class S0 Sclass_active\n"
+    );
+    Ok(())
+}
+
+#[test]
+fn nested_styles_are_hoisted_to_root() -> Result {
+    let mut inner = StateDiagramBuilder::default();
+    let class = inner.style_class(
+        StyleClassBuilder::default()
+            .name("active")?
+            .property(StyleProperty::Fill(Color::from((0, 0, 0))))?,
+    )?;
+    inner.node(
+        StateNodeBuilder::default()
+            .label("Child")?
+            .style_class(class)?
+            .style_property(StyleProperty::StrokeWidth(Unit::Pixel(2)))?,
+    )?;
+    let mut outer = StateDiagramBuilder::default();
+    outer.node(StateNodeBuilder::default().label("Parent")?.inner_diagram(inner.into())?)?;
+    assert_eq!(
+        StateDiagram::from(outer).to_string(),
+        concat!(
+            "stateDiagram-v2\n    direction LR\n",
+            "    state \"Parent\" as S0\n    state S0 {\n        direction LR\n",
+            "        state \"Child\" as S0_0\n    }\n",
+            "    classDef S0_class_active fill: #000000\n",
+            "    class S0_0 S0_class_active\n    style S0_0 stroke-width: 2px\n"
+        )
     );
     Ok(())
 }

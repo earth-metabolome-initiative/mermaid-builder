@@ -75,7 +75,8 @@ impl TabbedDisplay for StateDiagram {
     fn fmt_tabbed(&self, f: &mut fmt::Formatter<'_>, tab_count: usize) -> fmt::Result {
         write!(f, "{}", self.configuration())?;
         writeln!(f, "{:width$}stateDiagram-v2", "", width = tab_count * 4)?;
-        self.fmt_body(f, tab_count + 1, "S")
+        self.fmt_body(f, tab_count + 1, "S")?;
+        self.fmt_styles(f, tab_count + 1, "S")
     }
 }
 
@@ -83,6 +84,18 @@ impl StateDiagram {
     fn fmt_body(&self, f: &mut fmt::Formatter<'_>, depth: usize, scope: &str) -> fmt::Result {
         let indent = "    ".repeat(depth);
         writeln!(f, "{indent}direction {}", self.configuration().direction())?;
+        for node in self.nodes() {
+            node.fmt_scoped(f, depth, scope)?;
+        }
+        for edge in self.edges() {
+            edge.fmt_scoped(f, depth, scope)?;
+        }
+        Ok(())
+    }
+
+    fn fmt_styles(&self, f: &mut fmt::Formatter<'_>, depth: usize, scope: &str) -> fmt::Result {
+        // Mermaid only applies styling statements at the root scope.
+        let indent = "    ".repeat(depth);
         for class in self.style_classes() {
             write!(f, "{indent}classDef {scope}class_{} ", class.name())?;
             for (index, property) in class.properties().iter().enumerate() {
@@ -94,10 +107,7 @@ impl StateDiagram {
             writeln!(f)?;
         }
         for node in self.nodes() {
-            node.fmt_scoped(f, depth, scope)?;
-        }
-        for edge in self.edges() {
-            edge.fmt_scoped(f, depth, scope)?;
+            node.fmt_styles(f, depth, scope)?;
         }
         Ok(())
     }
