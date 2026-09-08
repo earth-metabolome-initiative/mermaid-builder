@@ -38,4 +38,10 @@ pub enum EdgeError {
     /// The edge length is invalid (must be > 0).
     #[error("Edge length must be greater than 0.")]
     InvalidLength,
+    /// State transitions only support solid lines.
+    #[error("State transitions only support solid lines.")]
+    UnsupportedStateLineStyle,
+    /// A transition enters a start state or leaves an end state.
+    #[error("Transitions cannot enter a start state or leave an end state.")]
+    InvalidStateTransition,
 }

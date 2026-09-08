@@ -30,4 +30,10 @@ pub enum NodeError {
     /// The subnodes are missing (required for subgraph with direction).
     #[error("Subnodes are missing.")]
     MissingSubnodes,
+    /// A nested state diagram contains root-only configuration.
+    #[error("Nested state diagrams cannot set title, renderer, theme, or look.")]
+    NestedStateConfiguration,
+    /// A special state has incompatible nesting or styling.
+    #[error("Special state kind is incompatible with nesting or styling.")]
+    InvalidStateKind,
 }

@@ -193,6 +193,34 @@ erDiagram
   v0 }|--|{ v1 : ""
 ```
 
+## State diagrams
+
+State labels are escaped descriptions. Generated identifiers are unique across
+composite scopes, even when nested builders reuse numeric IDs or labels.
+
+```rust
+use mermaid_builder::prelude::*;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let mut builder = StateDiagramBuilder::default();
+    let start = builder.node(StateNodeBuilder::default().kind(StateKind::Start))?;
+    let ready = builder.node(StateNodeBuilder::default().label("Ready to run")?)?;
+    let end = builder.node(StateNodeBuilder::default().kind(StateKind::End))?;
+    builder.edge(StateEdgeBuilder::default().source(start)?.destination(ready.clone())?)?;
+    builder.edge(StateEdgeBuilder::default().source(ready)?.destination(end)?.label("Done")?)?;
+    println!("{}", StateDiagram::from(builder));
+    Ok(())
+}
+```
+
+Use `StateNodeBuilder::inner_diagram` for composite states. Nested diagrams retain
+their direction; setting a title, renderer, theme, or look on a nested diagram
+returns an error. Transitions support only solid lines with a normal right arrow:
+unsupported arrow setters return errors, and `build()` rejects other line styles.
+Start states cannot be destinations, end states cannot be sources, and these
+pseudostates cannot carry styles or composite diagrams.
+
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

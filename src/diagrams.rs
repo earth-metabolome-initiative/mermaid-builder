@@ -4,3 +4,4 @@
 pub mod class_diagram;
 pub mod entity_relationship;
 pub mod flowchart;
+pub mod state_diagram;
